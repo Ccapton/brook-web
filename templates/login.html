@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container mt">
+            <div class="row-centered" id="login-form">
+                <div class="login-form col-centered">
+                    <div class="form-group">
+                        <input type="text" class="form-control login-field" value="" placeholder="用户" id="login-name">
+                        <label class="login-field-icon fui-user" for="login-name"></label>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" class="form-control login-field" value="" placeholder="密码" id="login-pass">
+                        <label class="login-field-icon fui-lock" for="login-pass"></label>
+                    </div>
+
+                    <a class="btn btn-success btn-lg btn-block" onclick="login()" href="#">登录</a>
+                 </div>
+            </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+        <script src="static/scripts/login.js"></script>
+{% endblock %}

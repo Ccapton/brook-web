@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container mt">
+
+            <div class="container" id="center-part">
+
+                <div class="container-fluid">
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <div class="tabbable" id="tabs-1">
+                                <ul class="nav nav-tabs">
+                                    <li class="active">
+                                        <a data-toggle="tab" href="#panel-1">Brook</a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#panel-2">ShadowSocks</a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#panel-3">Socks5</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="panel-1">
+                                    </div>
+                                    <div class="tab-pane" id="panel-2">
+                                    </div>
+                                    <div class="tab-pane" id="panel-3">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+    </div>
+
+    <div class="btn-group footer" id="footer">
+                  <a class="btn btn-primary" data-toggle="modal" href="#myModal" onclick="addPort()"><span class="fui-plus"></span></a>
+                  <a class="btn btn-primary" data-toggle="modal" href="#myModal2" onclick="delPort()"><span class="fui-cross"></span></a>
+                  <a class="btn btn-primary" data-toggle="modal" href="#myModal3" onclick="turnoffAllPort()"><span class="fui-power"></span></a>
+                  <a class="btn btn-primary" href="#" onclick="switchMenu()"><span class="fui-arrow-left"></span></a>
+    </div>
+
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+		    <div class="modal-content">
+			    <div class="modal-header">
+				    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+				    </button>
+				    <h4 class="modal-title" id="myModalLabel">
+				    	增加一个端口
+				    </h4>
+			    </div>
+			    <div class="modal-body">
+                    <h6>服务类型</h6>
+                    <div id="service-type">
+                        <label class="radio" id="brook">
+                            <input type="radio" name="optionsRadios" id="radio-brook" value="0" data-toggle="radio" checked="checked"  class="custom-radio"><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
+                            Brook
+                            </label>
+                        <label class="radio" id="ss">
+                            <input type="radio" name="optionsRadios" id="radio-ss" value="1" data-toggle="radio" class="custom-radio"><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
+                            ShadowSocks
+                        </label>
+                        <label class="radio" id="socks5">
+                            <input type="radio" name="optionsRadios" id="radio-socks5" value="2" data-toggle="radio" class="custom-radio"><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
+                            Socks5
+                        </label>
+                    </div>
+                    <h6>端口信息</h6>
+                    <div id="port-info">
+                        <input type="number" placeholder="端口" class="form-control" id="port">
+                        <input type="text" placeholder="用户名" class="form-control" id="username" style="display: none">
+                        <input type="text" placeholder="密码" class="form-control" id="psw">
+                    </div>
+
+			    </div>
+			    <div class="modal-footer">
+				    <button type="button" class="btn btn-default" data-dismiss="modal">
+				    	关闭
+				    </button>
+				    <button type="button" class="btn btn-primary" onclick="submit_addport()">
+				    	提交
+				    </button>
+			    </div>
+		    </div><!-- /.modal-content -->
+	    </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- 模态框2（Modal） -->
+    <div class="modal fade" id="myModal2" tabindex="-2" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+	    <div class="modal-dialog">
+		    <div class="modal-content">
+			    <div class="modal-header">
+				    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+				    </button>
+				    <h4 class="modal-title" id="myModalLabel2">
+				    	删除一个端口
+				    </h4>
+			    </div>
+			    <div class="modal-body">
+                    <h6>服务类型</h6>
+                    <div id="service-type-del">
+                        <label class="radio" id="brook-del">
+                            <input type="radio" name="optionsRadios2" id="radio-brook-del" value="0" data-toggle="radio" checked="checked"  class="custom-radio"><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
+                            Brook
+                            </label>
+                        <label class="radio" id="ss-del">
+                            <input type="radio" name="optionsRadios2" id="radio-ss-del" value="1" data-toggle="radio" class="custom-radio"><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
+                            ShadowSocks
+                        </label>
+                        <label class="radio" id="socks5-del">
+                            <input type="radio" name="optionsRadios2" id="radio-socks5-del" value="2" data-toggle="radio" class="custom-radio"><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
+                            Socks5
+                        </label>
+                    </div>
+                    <h6>选择端口</h6>
+                    <div id="port-info-del">
+
+                    </div>
+
+			    </div>
+			    <div class="modal-footer">
+				    <button type="button" class="btn btn-default" data-dismiss="modal">
+				    	关闭
+				    </button>
+{#				    <button type="button" class="btn btn-primary" onclick="submit_delport()">#}
+{#				    	提交#}
+{#				    </button>#}
+			    </div>
+		    </div><!-- /.modal-content -->
+	    </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!-- 模态框2（Modal） -->
+    <div class="modal fade" id="myModal3" tabindex="-3" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true">
+	    <div class="modal-dialog">
+		    <div class="modal-content">
+			    <div class="modal-header">
+				    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+				    </button>
+				    <h4 class="modal-title" id="myModalLabel3">
+				    	关闭服务
+				    </h4>
+			    </div>
+			    <div class="modal-body">
+                    <h6>选择要关闭的服务</h6>
+                    <div id="service-type-2">
+                        <label class="radio" id="brook-2">
+                            <input type="radio" name="optionsRadios3" id="radio-brook-2" value="0" data-toggle="radio" checked="checked"  class="custom-radio"><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
+                            Brook
+                            </label>
+                        <label class="radio" id="ss-2">
+                            <input type="radio" name="optionsRadios3" id="radio-ss-2" value="1" data-toggle="radio" class="custom-radio"><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
+                            ShadowSocks
+                        </label>
+                        <label class="radio" id="socks5-2">
+                            <input type="radio" name="optionsRadios3" id="radio-socks5-2" value="2" data-toggle="radio" class="custom-radio"><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
+                            Socks5
+                        </label>
+                        <label class="radio" id="socks5-2">
+                            <input type="radio" name="optionsRadios3" id="radio-socks5-2" value="2" data-toggle="radio" class="custom-radio"><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
+                            全部
+                        </label>
+                    </div>
+
+			    </div>
+			    <div class="modal-footer">
+				    <button type="button" class="btn btn-default" data-dismiss="modal">
+				    	关闭
+				    </button>
+				    <button type="button" class="btn btn-primary" onclick="submitTurnoff()">
+				    	提交
+				    </button>
+			    </div>
+		    </div><!-- /.modal-content -->
+	    </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+{% endblock %}
+{% block script %}
+    <script src="static/scripts/brook.js"></script>
+{% endblock %}
