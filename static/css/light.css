@@ -184,3 +184,7 @@ body { font-family:Molengo,"Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Mic
         .toggle-button:checked + label.button-label{
             background-color: #34e0bb;
         }
+
+.user-info-item{
+    margin-bottom: 15px;
+}

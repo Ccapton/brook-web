@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+        <div class="user-info-item">
+            <p>当前用户名：</p><button class="btn btn-warning" id="username-btn"></button>
+        </div>
+        <div class="user-info-item">
+            <p>当前密码：</p><button class="btn btn-warning" id="password-btn"></button>
+        </div>
+        <div class="" style="margin-top: 30px;">
+            <h5>修改信息：</h5>
+            <input id="username-new" type="text" class="form-control input-hg" placeholder="新用户名" style="margin-bottom: 10px"/>
+            <input id="password-new" type="text" class="form-control input-hg" placeholder="新密码" style="margin-bottom: 10px"/>
+            <button class="btn btn-primary" style="float:right;margin-top: 10px;" onclick="submitEditUser()">提交</button>
+        </div>
+
+
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="static/scripts/edit_user.js"></script>
+{% endblock %}

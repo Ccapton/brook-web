@@ -53,7 +53,7 @@ app = Flask(__name__)
 api = Api(app)
 ip = "0.0.0.0"
 port = 5000
-debug = False
+debug = True
 
 
 def default_config_json():
@@ -355,28 +355,6 @@ class DelPort(BaseResource):
     def post(self):
         return self.del_port()
 
-api.add_resource(Login,'/api/login')
-api.add_resource(ResetPsw,'/api/resetpsw')
-api.add_resource(StartService,'/api/startservice')
-api.add_resource(StopService,'/api/stopservice')
-api.add_resource(ServiceState,'/api/servicestate')
-api.add_resource(AddPort,'/api/addport')
-api.add_resource(DelPort,'/api/delport')
-
-@app.route("/")
-def brook_web():
-    title='Brook后台管理'
-    return render_template('index.html',title=title)
-
-@app.route("/login")
-def user_login():
-    title='Brook管理登录'
-    return render_template('login.html',title=title)
-
-@app.route("/test")
-def test_html():
-    return render_template('test.html')
-
 
 def is_port_used(port,config_json):
     if port > 0:
@@ -587,7 +565,7 @@ def start_service(service_type,port=-1,force=False):
         else:
             has_service_start(service_type)
             if code1 == -2:
-                print(' %s节点为空，请添加一些节点' % service_name)
+                pass
             else:
                 print(' %s服务开启失败' % service_name)
 
@@ -699,6 +677,32 @@ class Config(object):
     SCHEDULER_API_ENABLED = True
 
 
+api.add_resource(Login,'/api/login')
+api.add_resource(ResetPsw,'/api/resetpsw')
+api.add_resource(StartService,'/api/startservice')
+api.add_resource(StopService,'/api/stopservice')
+api.add_resource(ServiceState,'/api/servicestate')
+api.add_resource(AddPort,'/api/addport')
+api.add_resource(DelPort,'/api/delport')
+
+@app.route("/")
+def brook_web():
+    title='Brook后台管理'
+    return render_template('index.html',title=title)
+
+@app.route("/login")
+def user_login():
+    title='Brook管理登录'
+    return render_template('login.html',title=title)
+
+@app.route("/user")
+def user_edit():
+    title='Brook管理登录'
+    return render_template('user.html',title=title)
+
+@app.route("/test")
+def test_html():
+    return render_template('test.html')
 
 
 if __name__ == '__main__':
@@ -708,6 +712,7 @@ if __name__ == '__main__':
     start_service(SERVICE_TYPE_SOCKS5)
     app.config.from_object(Config())
 
+    print(get_host_ip())
     scheduler = APScheduler()
     # it is also possible to enable the API directly
     # scheduler.api_enabled = True

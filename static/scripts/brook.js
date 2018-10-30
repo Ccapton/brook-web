@@ -202,12 +202,6 @@ brook_state();
 state_interval = setInterval(brook_state, 2000);
 
 
-function getCookie(){ //获取cookie
-    var username = $.cookie("username"); //获取cookie中的用户名
-    var psw =  $.cookie("psw"); //获取cookie中的登陆密码
-    return {"username":username,"password":psw}
-}
-
 function judgeCookie(cookie) {
     $("#login-form").hide();
     if(cookie.username && cookie.password) {
@@ -329,14 +323,6 @@ function update_ui(brook_state_json) {
 
                }
             }
-}
-
-function logout() {
-    if (confirm('确定要退出该账号？')){
-        $.cookie('username', '', { expires: -1 });
-        $.cookie('psw', '', { expires: -1 });
-        $(location).attr('href', 'login');
-    }
 }
 
 
