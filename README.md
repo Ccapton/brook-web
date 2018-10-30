@@ -36,10 +36,19 @@ nohup python brook-web.py &
 ```
  #### 当出现模块引入错误时，以上命令中的 python 可用 python3 替换后尝试运行
 
-# 默认账号
+# 开始访问
+### 默认Web服务
+默认端口 5000
+
+ 请访问 http://你的主机ip:5000 例如：
+``` bash
+http://111.222.202.34:5000
+```
+### 初始用户信息
 初始账号 admin 
 
 初始密码 admin
+
 # 说明
 **请确保你的服务器（Linux|MacOS）已安装 python、curl**
 - **python** 
