@@ -55,7 +55,7 @@ class BaseResource(Resource):
 app = Flask(__name__)
 api = Api(app)
 ip = "0.0.0.0"
-port = 5000
+default_port = 5000
 debug = True
 
 
@@ -714,20 +714,37 @@ def user_edit():
 def test_html():
     return render_template('test.html')
 
-
+import fire
+port_error = False
+def change_port(port=5000):
+    global default_port,port_error
+    if isinstance(port,int):
+        if port > 0:
+            default_port = port
+        else:
+            port_error = True
+            print('端口必须大于0')
+    else:
+        port_error = True
+        print('端口号必须为正整数')
 
 if __name__ == '__main__':
-    os.system('killall brook')
-    start_service(SERVICE_TYPE_BROOK)
-    start_service(SERVICE_TYPE_SS)
-    start_service(SERVICE_TYPE_SOCKS5)
-    app.config.from_object(Config())
 
-    print(get_host_ip())
-    scheduler = APScheduler()
-    # it is also possible to enable the API directly
-    # scheduler.api_enabled = True
-    scheduler.init_app(app)
-    scheduler.start()
+    fire.Fire(change_port)
 
-    app.run(get_host_ip(),port,debug=debug)
+    if not port_error:
+        os.system('killall brook')
+        start_service(SERVICE_TYPE_BROOK)
+        start_service(SERVICE_TYPE_SS)
+        start_service(SERVICE_TYPE_SOCKS5)
+        app.config.from_object(Config())
+
+        print(get_host_ip())
+        scheduler = APScheduler()
+        # it is also possible to enable the API directly
+        # scheduler.api_enabled = True
+        scheduler.init_app(app)
+        scheduler.start()
+
+        app.run(get_host_ip(), port=default_port, debug=debug)
+
