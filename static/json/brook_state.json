@@ -1,1 +1,0 @@
-{"brook": [{"port": 10086, "psw": "1125", "state": 1}, {"port": 3333, "psw": "3333", "state": 1}, {"port": 2222, "psw": "2222", "state": 1}], "shadowsocks": [{"port": 9997, "psw": "1125", "state": 1}, {"port": 9998, "psw": "1125", "state": 1}], "socks5": [{"port": 8888, "psw": "", "username": "", "state": 1}]}
