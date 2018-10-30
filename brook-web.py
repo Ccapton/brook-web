@@ -10,6 +10,9 @@
 #。 @Github  : https://github.com/ccapton     
 #。 @Email   : chenweibin1125@foxmail.com     
 #。__________________________________________
+from __future__ import print_function
+from __future__ import division
+
 from flask import Flask,render_template
 from flask_apscheduler import APScheduler
 from flask_restful import Api

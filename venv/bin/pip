@@ -1,12 +1,11 @@
-#!/home/capton/PycharmProjects/brook-ok/venv/bin/python
-# EASY-INSTALL-ENTRY-SCRIPT: 'pip==10.0.1','console_scripts','pip'
-__requires__ = 'pip==10.0.1'
+#!/Users/capton/Desktop/brook-web/venv/bin/python3
+
+# -*- coding: utf-8 -*-
 import re
 import sys
-from pkg_resources import load_entry_point
+
+from pip._internal import main
 
 if __name__ == '__main__':
     sys.argv[0] = re.sub(r'(-script\.pyw?|\.exe)?$', '', sys.argv[0])
-    sys.exit(
-        load_entry_point('pip==10.0.1', 'console_scripts', 'pip')()
-    )
+    sys.exit(main())

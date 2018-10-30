@@ -1,3 +1,0 @@
-flask>=0.10.1
-apscheduler>=3.2.0
-python-dateutil>=2.4.2
