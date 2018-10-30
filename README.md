@@ -38,11 +38,20 @@ nohup python brook-web.py &
 
 # 开始访问
 ### 默认Web服务
-默认端口 5000
 
- 请访问 http://你的主机ip:5000 例如：
+**请访问 http://你的主机ip:5000 例如：**
+ 
+> ### http://111.222.202.34:5000
+ 
+该服务默认端口 5000
+
+若要修改服务端口，参考：
 ``` bash
-http://111.222.202.34:5000
+python brook-web.py --port=8080
+```
+或
+``` bash
+python brook-web.py 8080
 ```
 ### 初始用户信息
 初始账号 admin 
