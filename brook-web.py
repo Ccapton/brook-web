@@ -20,6 +20,8 @@ brook_pid = ''
 ss_pid = ''
 socks5_pid = ''
 
+host_ip = None
+
 busy = False
 
 SERVICE_TYPE_BROOK = 0
@@ -475,10 +477,13 @@ def del_port(service_type=SERVICE_TYPE_BROOK,port=-1):
 def get_host_ip():
     import socket
     s = None
+    global host_ip
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.connect(('8.8.8.8', 80))
         ip = s.getsockname()[0]
+    except:
+        if host_ip:ip = host_ip
     finally:
         if s:s.close()
     return ip
