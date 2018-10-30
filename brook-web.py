@@ -560,7 +560,7 @@ def start_service(service_type,port=-1,force=False):
         if code1 == 0:
             # 这时 brook_pid,ss_pid 未被记录
             has_service_start(service_type)  # 为了记录brook_pid,ss_pid
-            print('%s服务开启成功！' % service_name)
+            print('% Service Start Successful' % service_name)
             busy = True
             save_config_json(config_json)
             busy = False
@@ -570,7 +570,7 @@ def start_service(service_type,port=-1,force=False):
             if code1 == -2:
                 pass
             else:
-                print(' %s服务开启失败' % service_name)
+                print(' %s Service Start Failed' % service_name)
 
 
 def stop_service(service_type=SERVICE_TYPE_BROOK,port=-1,force=False):
@@ -657,7 +657,7 @@ def clear_log():
     if os.path.exists('nohup.out'):
         with open('nohup.out','w+') as f:
             f.write('')
-            print('已清理当前日志')
+            print('Clear Log')
 
 
 class Config(object):
