@@ -28,6 +28,10 @@ nohup python brook-web.py &
 ```
  #### 当出现模块引入错误时，以上命令中的 python 可用 python3 替换后尝试运行
 
+# 默认账号
+初始账号 admin 
+
+初始密码 admin
 # 说明
 **请确保你的服务器（Linux|MacOS）已安装 python、curl**
 - **python** 
