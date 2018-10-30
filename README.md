@@ -2,11 +2,11 @@
 brook程序服务端Web后台管理
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/Ccapton/brook-web/master/image/brook-web.jpeg" height="175" width="200" >  
-<img src="https://raw.githubusercontent.com/Ccapton/brook-web/master/image/brook-web2.jpeg" height="175" width="200" >  
-<img src="https://raw.githubusercontent.com/Ccapton/brook-web/master/image/brook-web3.jpeg" height="175" width="200" >  
-<img src="https://raw.githubusercontent.com/Ccapton/brook-web/master/image/brook-web4.jpeg" height="175" width="200" >  
-<img src="https://raw.githubusercontent.com/Ccapton/brook-web/master/image/brook-web5.jpeg" height="175" width="200" >  
+<img src="https://raw.githubusercontent.com/Ccapton/brook-web/master/image/brook-web.jpeg" height="350" width="400" >  
+<img src="https://raw.githubusercontent.com/Ccapton/brook-web/master/image/brook-web2.jpeg" height="350" width="400" >  
+<img src="https://raw.githubusercontent.com/Ccapton/brook-web/master/image/brook-web3.jpeg" height="350" width="400" >  
+<img src="https://raw.githubusercontent.com/Ccapton/brook-web/master/image/brook-web4.jpeg" height="350" width="400" >  
+<img src="https://raw.githubusercontent.com/Ccapton/brook-web/master/image/brook-web5.jpeg" height="350" width="400" >  
 </div>
 
 # 常规部署
