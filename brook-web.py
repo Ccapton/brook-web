@@ -13,7 +13,7 @@
 from __future__ import print_function
 from __future__ import division
 
-from flask import Flask,render_template
+from flask import Flask,render_template,send_from_directory
 from flask_apscheduler import APScheduler
 from flask_restful import Api
 from flask_restful import Resource,reqparse
@@ -680,6 +680,13 @@ class Config(object):
     SCHEDULER_API_ENABLED = True
 
 
+class Favicon(BaseResource):
+    def get(self):
+        return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico',
+                                   mimetype='image/vnd.microsoft.icon')
+
+
+api.add_resource(Favicon,'/favicon.ico')
 api.add_resource(Login,'/api/login')
 api.add_resource(ResetPsw,'/api/resetpsw')
 api.add_resource(StartService,'/api/startservice')
@@ -706,6 +713,7 @@ def user_edit():
 @app.route("/test")
 def test_html():
     return render_template('test.html')
+
 
 
 if __name__ == '__main__':
