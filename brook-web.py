@@ -560,7 +560,7 @@ def start_service(service_type,port=-1,force=False):
         if code1 == 0:
             # 这时 brook_pid,ss_pid 未被记录
             has_service_start(service_type)  # 为了记录brook_pid,ss_pid
-            print('% Service Start Successful' % service_name)
+            print('%s Service Start Successful' % service_name)
             busy = True
             save_config_json(config_json)
             busy = False
