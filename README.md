@@ -1,6 +1,10 @@
 # brook-web
 brook程序服务端Web后台管理
 
+<div align="center">
+<img src="https://raw.githubusercontent.com/Ccapton/brook-web/master/image/brook-web.jpeg" height="355" width="200" >  
+</div>
+
 # 常规部署
 ### 1、打开终端，以root用户登录
 ### 2、使用 cd 命令 进入brook-web文件夹 
