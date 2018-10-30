@@ -587,7 +587,7 @@ def start_service(service_type,port=-1,force=False):
         else:
             has_service_start(service_type)
             if code1 == -2:
-                print(' %s节点为空，请添加一些节点' % service_name)
+                pass
             else:
                 print(' %s服务开启失败' % service_name)
 
