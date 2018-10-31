@@ -149,10 +149,10 @@ function submit_delport(type,port){
     var delete_confirm = confirm('确定要删除端口：'+port+'上的'+service+'服务?');
     if (delete_confirm){
         $.get('api/delport',{'type':type,'port':port},function (result) {
-           if (result.code == 0){
-               alert('成功删除端口！');
-               $('#myModal2').modal('hide');
-           }
+            if (result.code == 0){
+                alert('成功删除端口！');
+                $('#myModal2').modal('hide');
+            }
         });
     }
 }
@@ -268,7 +268,7 @@ function update_ui(brook_state_json) {
                                 var i = $(this).data('index2');
                                 var ischecked = $(this).prop("checked");
                                 console.log(ischecked);
-                                //clearInterval(state_interval);
+                                clearInterval(state_interval);
                                 var api_url = "";
                                 var api_url1 = "api/startservice";
                                 var api_url2 = "api/stopservice";
@@ -278,7 +278,7 @@ function update_ui(brook_state_json) {
                                     api_url = api_url2;
                                 console.log(api_url);
                                 $.get(api_url,{'username':getCookie().username,'password':getCookie().password,'type':j,'port':state_jsons[j][i].port},function (result) {
-                                    //state_interval = setInterval(brook_state,2000);
+                                    state_interval = setInterval(brook_state,2000);
                                     console.log('已改变端口状态');
                                 })
                             });
