@@ -734,12 +734,25 @@ def change_port(port=5000):
         port_error = True
         print('端口号必须为正整数')
 
+command_tag = 'apt'
+def guest_systemt_type():
+    global command_tag
+    rehad_or_centos = os.system('cat /etc/redhat-release')
+    if rehad_or_centos == 0:
+        command_tag = 'yum'
+    debian_or_ubuntu = os.system('cat /etc/debian_version')
+    if debian_or_ubuntu == 0:
+        command_tag = 'apt'
+
 if __name__ == '__main__':
 
     fire.Fire(change_port)
 
     if not port_error:
-        os.system('killall brook')
+
+        os.popen(command_tag + ' install psmisc')
+
+        kill_result = os.system('killall brook')
         start_service(SERVICE_TYPE_BROOK)
         start_service(SERVICE_TYPE_SS)
         start_service(SERVICE_TYPE_SOCKS5)
@@ -754,7 +767,7 @@ if __name__ == '__main__':
 
         if python_version == '2':
             reload(sys)
-            sys.setdefaultencoding("utf-8") 
+            sys.setdefaultencoding("utf-8")
 
         app.run(get_host_ip(), port=default_port, debug=debug)
 
