@@ -72,60 +72,58 @@ def brook_release_json(releaseLinkList):
         brook_release_list.append(released)
     return brook_release_list
 
-def has_service_start(service_type=SERVICE_TYPE_BROOK):
-    result = os.popen('ps aux | grep brook').read()
-    try:
-        global brook_pid,ss_pid,socks5_pid
-        if service_type == SERVICE_TYPE_BROOK:
-            brook_pid = match_pid(result, service_type)
-        elif service_type == SERVICE_TYPE_SS:
-            ss_pid = match_pid(result, service_type)
-        elif service_type == SERVICE_TYPE_SOCKS5:
-            socks5_pid = match_pid(result, service_type)
-    except Exception:
-        if service_type == SERVICE_TYPE_BROOK:brook_pid = ''
-        elif service_type == SERVICE_TYPE_SS:ss_pid = ''
-        elif service_type == SERVICE_TYPE_SOCKS5:socks5_pid = ''
-    started = False
-    if service_type == SERVICE_TYPE_BROOK:
-        if str(result).find(' servers -l') != -1:
-                started = True
-    elif service_type == SERVICE_TYPE_SS:
-        if str(result).find(' ssservers -l') != -1:
-                started = True
-    elif service_type == SERVICE_TYPE_SOCKS5:
-        if str(result).find(' socks5 -l') != -1:
-                started = True
-    return started
+# def has_service_start(service_type=SERVICE_TYPE_BROOK):
+#     result = os.popen('ps aux | grep brook').read()
+#     try:
+#         global brook_pid,ss_pid,socks5_pid
+#         if service_type == SERVICE_TYPE_BROOK:
+#             brook_pid = match_pid(result, service_type)
+#         elif service_type == SERVICE_TYPE_SS:
+#             ss_pid = match_pid(result, service_type)
+#         elif service_type == SERVICE_TYPE_SOCKS5:
+#             socks5_pid = match_pid(result, service_type)
+#     except Exception:
+#         if service_type == SERVICE_TYPE_BROOK:brook_pid = ''
+#         elif service_type == SERVICE_TYPE_SS:ss_pid = ''
+#         elif service_type == SERVICE_TYPE_SOCKS5:socks5_pid = ''
+#     started = False
+#     if service_type == SERVICE_TYPE_BROOK:
+#         if str(result).find(' servers -l') != -1:
+#                 started = True
+#     elif service_type == SERVICE_TYPE_SS:
+#         if str(result).find(' ssservers -l') != -1:
+#                 started = True
+#     elif service_type == SERVICE_TYPE_SOCKS5:
+#         if str(result).find(' socks5 -l') != -1:
+#                 started = True
+#     return started
+#
+# def stop_service(service_type=SERVICE_TYPE_BROOK):
+#     has_service_start(service_type)
+#     try:
+#         global brook_pid,ss_pid
+#         if service_type == SERVICE_TYPE_BROOK:
+#             if brook_pid != '':
+#                 os.system('kill ' + brook_pid)
+#         elif service_type == SERVICE_TYPE_SS:
+#             if ss_pid != '':
+#                 os.system('kill ' + ss_pid)
+#         elif service_type == SERVICE_TYPE_SOCKS5:
+#             if socks5_pid != '':
+#                 os.system('kill ' + socks5_pid)
+#     finally:
+#         pass
+#
+# def has_brook_start():
+#     return has_service_start(SERVICE_TYPE_BROOK)
+#
+#
+# def stop_brook():
+#     has_brook_start()
+#     stop_service(SERVICE_TYPE_BROOK)
 
-def stop_service(service_type=SERVICE_TYPE_BROOK):
-    has_service_start(service_type)
-    try:
-        global brook_pid,ss_pid
-        if service_type == SERVICE_TYPE_BROOK:
-            if brook_pid != '':
-                os.system('kill ' + brook_pid)
-        elif service_type == SERVICE_TYPE_SS:
-            if ss_pid != '':
-                os.system('kill ' + ss_pid)
-        elif service_type == SERVICE_TYPE_SOCKS5:
-            if socks5_pid != '':
-                os.system('kill ' + socks5_pid)
-    finally:
-        pass
 
-def has_brook_start():
-    return has_service_start(SERVICE_TYPE_BROOK)
-
-
-def stop_brook():
-    has_brook_start()
-    stop_service(SERVICE_TYPE_BROOK)
-
-
-def download_brook(is_upgrade,url,is_exe=False):
-    if is_upgrade:
-        stop_brook()
+def download_brook(url,is_exe=False):
     print(' 开始下载brook ' + url)
     command = 'curl -o brook_temp -L ' + url
     code = os.system(command)
@@ -147,40 +145,40 @@ def download_brook(is_upgrade,url,is_exe=False):
     print(" brook下载完毕!保存在："+os.path.join(sys.path[0],brook_name))
 
 
-def is_mac(is_upgrade,):
+def is_mac():
     brook_list = brook_release_json(match_brook_release_list())
     for brook in brook_list:
         if 'darwin'in brook['name'] :
-            download_brook(is_upgrade,brook['url'])
+            download_brook(brook['url'])
             break
 
 
-def is_linux(is_upgrade,arch):
+def is_linux(arch):
     brook_list = brook_release_json(match_brook_release_list())
     for brook in brook_list:
         if str(brook['name']).endswith('brook') and arch == 'x86_64':
-            download_brook(is_upgrade,brook['url'])
+            download_brook(brook['url'])
             break
         elif 'linux' in brook['name']  and arch == 'x86' and '386' in brook['name']:
-            download_brook(is_upgrade,brook['url'])
+            download_brook(brook['url'])
             break
         elif 'linux' in brook['name'] and arch in brook['name']:
-            download_brook(is_upgrade,brook['url'])
+            download_brook(brook['url'])
             break
         else:
-            download_brook(is_upgrade,brook_list[0]['url'])
+            download_brook(brook_list[0]['url'])
             break
 
 
-def guest_platform(is_upgrade=False):
+def guest_platform():
     sys_name = platform.system()
-    machine_name = platform.machine().lower()
+    #machine_name = platform.machine().lower()
     if 'Darwin' == sys_name:
-        is_mac(is_upgrade)
+        is_mac()
     elif 'Linux' == sys_name:
         arch = os.popen('uname -m').read()
         arch = arch[:len(arch) - 1]
-        is_linux(is_upgrade,arch)
+        is_linux(arch)
     elif 'Windows' == sys_name:
         print('暂不支持Windows平台,请期待作者完成')
         #isWindows(is_upgrade,machine_name)
