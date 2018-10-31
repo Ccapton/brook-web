@@ -240,12 +240,15 @@ function update_ui(brook_state_json) {
                                 icon_isenabled_class = 'fui-info-circle';
                             }
                             var psw_item = '<p class="port-detail-p">密码：'+state_jsons[j][i].psw+'</p>';
+                            var encode_method_item = '<p class="port-detail-p">加密方式：aes-256-cfb</p>';
                             var username_item = '<p class="port-detail-p">用户：'+state_jsons[j][i].username+'</p>';
                             if (state_jsons[j][i].username == ''){
                                 psw_item = '';
                             } else {
                                 if (j == 2)
                                     psw_item = username_item + psw_item;
+                                if (j == 1)
+                                    psw_item = psw_item + encode_method_item;
                             }
                             var child_port = '<div class="accordion-group"  id="port-item'+j+'-'+i+'"><div class="accordion-heading '+isenabled+'"><a class=' +
                                 '"accordion-toggle collapsed port-a" style="color:white" contenteditable="false" data-parent="#accordion-'+j+'" ' +
