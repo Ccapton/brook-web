@@ -667,7 +667,7 @@ class Config(object):
             'func': record_all_state,
             #'args': (1, 2),
             'trigger': 'interval',
-            'seconds': 2
+            'seconds': 1
         },
         {
             'id': 'job2',

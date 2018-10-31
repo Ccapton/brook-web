@@ -178,7 +178,7 @@ function submitTurnoff(){
     $.get('api/stopservice',{'username':getCookie().username,'password':getCookie().password,'type':type,'port':-1},function (result) {
         if (result.code == 0){
             $('#myModal3').modal('hide');
-            console.log('成功关闭服务')
+            console.log('关闭服务')
         }
     })
 
@@ -268,7 +268,7 @@ function update_ui(brook_state_json) {
                                 var i = $(this).data('index2');
                                 var ischecked = $(this).prop("checked");
                                 console.log(ischecked);
-                                clearInterval(state_interval);
+                                //clearInterval(state_interval);
                                 var api_url = "";
                                 var api_url1 = "api/startservice";
                                 var api_url2 = "api/stopservice";
@@ -278,7 +278,7 @@ function update_ui(brook_state_json) {
                                     api_url = api_url2;
                                 console.log(api_url);
                                 $.get(api_url,{'username':getCookie().username,'password':getCookie().password,'type':j,'port':state_jsons[j][i].port},function (result) {
-                                    state_interval = setInterval(brook_state,2000);
+                                    //state_interval = setInterval(brook_state,2000);
                                     console.log('已改变端口状态');
                                 })
                             });
