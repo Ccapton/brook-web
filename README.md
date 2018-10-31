@@ -10,31 +10,29 @@
 </div>
 
 # 常规部署
+## python3环境
 ### 1、打开终端，以root用户登录
 ### 2、使用 cd 命令 进入brook-web文件夹 
-### 3、安装所依赖的库、框架
-``` bash
-pip install -r requirements.txt
-```
-或 python3环境下的pip3安装
+### 3、安装所依赖的库、框架 
+
+python3环境下的pip3安装
 ``` bash
 pip3 install -r requirements.txt
 ```
 ### 4、下载brook主体程序到brook-web文件夹内
 ``` bash
-python install-brook.py
+python3 install-brook.py
 ```
 
 ### 5、开启brook-web服务
 前台模式
 ``` bash
-python brook-web.py
+python3 brook-web.py
 ```
 后台模式
 ``` bash
-nohup python brook-web.py &
-```
- #### 当出现模块引入错误时，以上命令中的 python 可用 python3 替换后尝试运行
+nohup python3 brook-web.py &
+``` 
 
 # 开始访问
 ### 默认Web服务
@@ -47,11 +45,11 @@ nohup python brook-web.py &
 
 若要修改服务端口，参考：
 ``` bash
-python brook-web.py --port=8080
+python3 brook-web.py --port=8080
 ```
 或
 ``` bash
-python brook-web.py 8080
+python3 brook-web.py 8080
 ```
 ### 初始用户信息
 初始账号 admin 
