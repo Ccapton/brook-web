@@ -17,7 +17,13 @@ from flask import Flask,render_template,send_from_directory
 from flask_apscheduler import APScheduler
 from flask_restful import Api
 from flask_restful import Resource,reqparse
-import json, os, re
+import json, os, re ,sys
+
+python_version = sys.version
+if python_version.startswith('2.'):
+    python_version = '2'
+elif python_version.startswith('3.'):
+    python_version = '3'
 
 brook_pid = ''
 ss_pid = ''
@@ -745,6 +751,10 @@ if __name__ == '__main__':
         # scheduler.api_enabled = True
         scheduler.init_app(app)
         scheduler.start()
+
+        if python_version == '2':
+            reload(sys)
+            sys.setdefaultencoding("utf-8") 
 
         app.run(get_host_ip(), port=default_port, debug=debug)
 
