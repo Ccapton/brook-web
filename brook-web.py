@@ -564,8 +564,8 @@ def start_service(service_type,port=-1,force=False):
                 code1 = os.system(
                     'nohup ./brook socks5 ' + server_list_str + '-i ' + get_host_ip() + user_mode + ' >/dev/null 2>log &')
         if code1 == 0:
-            # 这时 brook_pid,ss_pid 未被记录
-            has_service_start(service_type)  # 为了记录brook_pid,ss_pid
+            # 这时 brook_pid,ss_pid,socks5_pid未被记录
+            has_service_start(service_type)  # 为了记录brook_pid,ss_pid,socks5_pid
             print('%s Service Start Successful' % service_name)
             busy = True
             save_config_json(config_json)
@@ -734,28 +734,48 @@ def change_port(port=5000):
         port_error = True
         print('端口号必须为正整数')
 
-command_tag = 'apt'
-def guest_systemt_type():
-    global command_tag
-    rehad_or_centos = os.system('cat /etc/redhat-release')
-    if rehad_or_centos == 0:
-        command_tag = 'yum'
-    debian_or_ubuntu = os.system('cat /etc/debian_version')
-    if debian_or_ubuntu == 0:
-        command_tag = 'apt'
+# command_tag = 'apt'
+# def guest_command_tag():
+#     global command_tag
+#     system_type = ''
+#     content = os.popen('cat /proc/version').read()
+#     if 'debian' in content.lower() or 'ubuntu' in content.lower():
+#         system_type = 'debian'
+#     elif 'centos' in content.lower() or 'red hat' in content.lower() or 'redhat' in content.lower():
+#         system_type = 'centos'
+#     if system_type == 'debian':
+#         command_tag = 'apt-get'
+#     elif system_type == 'centos':
+#         command_tag = 'yum'
+# guest_command_tag()
 
 if __name__ == '__main__':
 
     fire.Fire(change_port)
 
     if not port_error:
+        # import platform
+        # sys_name = platform.system()
+        # machine_name = platform.machine().lower()
+        # if 'Darwin' == sys_name:
+        #      pass
+        # elif 'Linux' == sys_name:
+        #     p = os.popen(command_tag + ' install psmisc')
+        #     p.read()
+        #     p.close()
+        #
+        # kill_result = os.system('killall brook')
+        if has_service_start(SERVICE_TYPE_BROOK):stop_service(SERVICE_TYPE_BROOK,port=-1)
+        if has_service_start(SERVICE_TYPE_SS):stop_service(SERVICE_TYPE_SS,port=-1)
+        if has_service_start(SERVICE_TYPE_SOCKS5):stop_service(SERVICE_TYPE_SOCKS5,port=-1)
 
-        os.popen(command_tag + ' install psmisc')
+        if not os.path.exists('brook'):
+            print('当前目录下不存在brook程序！请执行 python install-brook.py 或 python3 install-brook.py重试')
+        else:
+            start_service(SERVICE_TYPE_BROOK)
+            start_service(SERVICE_TYPE_SS)
+            start_service(SERVICE_TYPE_SOCKS5)
 
-        kill_result = os.system('killall brook')
-        start_service(SERVICE_TYPE_BROOK)
-        start_service(SERVICE_TYPE_SS)
-        start_service(SERVICE_TYPE_SOCKS5)
         app.config.from_object(Config())
 
         print(get_host_ip())
