@@ -749,6 +749,14 @@ def change_port(port=5000):
 #         command_tag = 'yum'
 # guest_command_tag()
 
+
+app.config.from_object(Config())
+scheduler = APScheduler()
+# it is also possible to enable the API directly
+# scheduler.api_enabled = True
+scheduler.init_app(app)
+scheduler.start()
+
 if __name__ == '__main__':
 
     fire.Fire(change_port)
@@ -776,14 +784,6 @@ if __name__ == '__main__':
             start_service(SERVICE_TYPE_SS)
             start_service(SERVICE_TYPE_SOCKS5)
 
-        app.config.from_object(Config())
-
-        print(get_host_ip())
-        scheduler = APScheduler()
-        # it is also possible to enable the API directly
-        # scheduler.api_enabled = True
-        scheduler.init_app(app)
-        scheduler.start()
 
         if python_version == '2':
             reload(sys)
