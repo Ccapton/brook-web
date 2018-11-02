@@ -127,18 +127,19 @@ def brook_release_json(releaseLinkList):
 
 def download_brook(url,is_exe=False):
     print(' 开始下载brook ' + url)
-    command = 'curl -o brook_temp -L ' + url
+    brook_name = 'brook'
+    command = 'curl -o '+os.path.join(sys.path[0], 'brook_temp')+' -L ' + url
     code = os.system(command)
     if code != 0:
         print('')
         print(' 下载brook错误，请重新运行本程序')
-        os.system('rm -rf brook_temp')
+        os.system('rm -rf '+os.path.join(sys.path[0], 'brook_temp'))
         return
-    brook_name = 'brook'
     if not is_exe:
-        command2 = 'rm -rf brook && mv brook_temp brook'
+        command2 = 'rm -rf '+os.path.join(sys.path[0], brook_name)+' && mv '+os.path.join(sys.path[0], 'brook_temp')+\
+                   ' '+os.path.join(sys.path[0], brook_name)
         os.system(command2)
-        command3 = 'chmod +x brook'
+        command3 = 'chmod +x '+os.path.join(sys.path[0], brook_name)
         os.system(command3)
     else:
         brook_name = 'brook.exe'
