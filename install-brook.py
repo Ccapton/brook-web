@@ -31,13 +31,15 @@ elif python_version.startswith('3.'):
 def get_html_source(url):
     html_source = ''
     context = ssl._create_unverified_context()
-    if python_version == '3':
-        import urllib.request as req
-    else:
-        import urllib as req
+
     try:
         try:
-            f = req.urlopen(url, context=context)
+            if python_version == '3':
+                import urllib.request as req
+                f = req.urlopen(url,context=context)
+            else:
+                import urllib as req
+                f = req.urlopen(url)
             html_source = f.read()
             f.close()
         except KeyboardInterrupt:
