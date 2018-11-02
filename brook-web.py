@@ -88,8 +88,9 @@ def default_user(username="admin", password="admin"):
 
 current_brook_state={}
 
-default_userjson_path = "static/json/user.json"
-config_json_path = "static/json/brook_state.json"
+import sys
+default_userjson_path = os.path.join(sys.path[0],"static/json/user.json")
+config_json_path = os.path.join(sys.path[0],"static/json/brook_state.json")
 
 
 def base_result(msg="", data=None, code=-1):
@@ -746,7 +747,7 @@ def change_port(port=5000):
 #     if system_type == 'debian':
 #         command_tag = 'apt-get'
 #     elif system_type == 'centos':
-#         command_tag = 'yum'
+#         command_tag = 'yum -y'
 # guest_command_tag()
 
 
