@@ -554,16 +554,16 @@ def start_service(service_type,port=-1,force=False):
         code1 = -2
         if len(server_list_str) != 0:
             if service_type == SERVICE_TYPE_BROOK:
-                code1 = os.system('nohup ./brook servers ' + server_list_str + '>/dev/null 2>log &')
+                code1 = os.system('nohup '+os.path.join(sys.path[0],'brook')+' servers ' + server_list_str + '>/dev/null 2>log &')
             elif service_type == SERVICE_TYPE_SS:
-                code1 = os.system('nohup ./brook ssservers ' + server_list_str + '>/dev/null 2>log &')
+                code1 = os.system('nohup '+os.path.join(sys.path[0],'brook')+' ssservers ' + server_list_str + '>/dev/null 2>log &')
             elif service_type == SERVICE_TYPE_SOCKS5:
                 if server_list[0]['username'] != '':
                     user_mode = ' --username ' + server_list[0]['username'] + ' --password ' + server_list[0]['psw']
                 else:
                     user_mode = ''
                 code1 = os.system(
-                    'nohup ./brook socks5 ' + server_list_str + '-i ' + get_host_ip() + user_mode + ' >/dev/null 2>log &')
+                    'nohup '+os.path.join(sys.path[0],'brook')+' socks5 ' + server_list_str + '-i ' + get_host_ip() + user_mode + ' >/dev/null 2>log &')
         if code1 == 0:
             # 这时 brook_pid,ss_pid,socks5_pid未被记录
             has_service_start(service_type)  # 为了记录brook_pid,ss_pid,socks5_pid
