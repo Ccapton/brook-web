@@ -11,11 +11,7 @@
 
 # Docker部署
 
-### 1、拉取镜像
-``` bash
-docker pull capton/brook-web
-```
-### 2、运行镜像
+运行镜像
 ``` bash
 docker run --net=host -d capton/brook-web /bin/bash -c "python brook-web.py 5000"
 ```
