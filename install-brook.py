@@ -21,17 +21,17 @@ SERVICE_TYPE_BROOK = 0
 SERVICE_TYPE_SS = 1
 SERVICE_TYPE_SOCKS5 = 2
 
+# 判断Python执行版本
 python_version = sys.version
 if python_version.startswith('2.'):
     python_version = '2'
 elif python_version.startswith('3.'):
     python_version = '3'
 
-
+# 获取html网页源代码字符串
 def get_html_source(url):
     html_source = ''
     context = ssl._create_unverified_context()
-
     try:
         try:
             if python_version == '3':
@@ -56,6 +56,7 @@ def match_brook_release_list():
     else:
         source = get_html_source(url).decode(encoding='utf-8')
     import re
+    # 正则匹配所有可用下载链接
     result = re.findall('https://github.com/txthinking/brook/releases/download/.+"', source)
     link_list = []
     for raw_link in result:
@@ -64,6 +65,7 @@ def match_brook_release_list():
     return link_list
 
 
+# 根据下载链接列表，返回一个包含不同操作系统(架构)列表的对象
 def brook_release_json(releaseLinkList):
     brook_release_list = []
     import os
@@ -124,7 +126,7 @@ def brook_release_json(releaseLinkList):
 #     has_brook_start()
 #     stop_service(SERVICE_TYPE_BROOK)
 
-
+# 下载Brook程序，先保存一个缓存文件再删除原brook文件、将刚下载的缓存文件改名为brook、授予执行权限
 def download_brook(url,is_exe=False):
     print(' 开始下载brook ' + url)
     brook_name = 'brook'
@@ -148,6 +150,7 @@ def download_brook(url,is_exe=False):
     print(" brook下载完毕!保存在："+os.path.join(sys.path[0],brook_name))
 
 
+# 匹配MacOS系统下载链接
 def is_mac():
     brook_list = brook_release_json(match_brook_release_list())
     for brook in brook_list:
@@ -155,7 +158,7 @@ def is_mac():
             download_brook(brook['url'])
             break
 
-
+# 匹配不同Linux系统的下载链接
 def is_linux(arch):
     brook_list = brook_release_json(match_brook_release_list())
     for brook in brook_list:
@@ -173,6 +176,7 @@ def is_linux(arch):
             break
 
 
+# 判断操作系统，并执行下载任务
 def guest_platform():
     sys_name = platform.system()
     #machine_name = platform.machine().lower()

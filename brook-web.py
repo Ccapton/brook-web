@@ -10,32 +10,38 @@
 #。 @Github  : https://github.com/ccapton     
 #。 @Email   : chenweibin1125@foxmail.com     
 #。__________________________________________
-from __future__ import print_function
-from __future__ import division
+from __future__ import print_function  #  同时兼容python2、Python3
+from __future__ import division        #  同时兼容python2、Python3
 
 from flask import Flask,render_template,send_from_directory
 from flask_apscheduler import APScheduler
 from flask_restful import Api
 from flask_restful import Resource,reqparse
-import json, os, re ,sys
+import json, os, re, sys
 
+# 判断当前Python执行大版本
 python_version = sys.version
 if python_version.startswith('2.'):
     python_version = '2'
 elif python_version.startswith('3.'):
     python_version = '3'
 
+# 服务进程号
 brook_pid = ''
 ss_pid = ''
 socks5_pid = ''
 
+# 主机ip
 host_ip = None
 
+# 模拟同步的标志 当进行配置信息的保存操作(文件写入)时必须对busy进行赋值为True,保存后赋值为False
 busy = False
 
+# 服务类型
 SERVICE_TYPE_BROOK = 0
 SERVICE_TYPE_SS = 1
 SERVICE_TYPE_SOCKS5 = 2
+
 
 # Resource封装类，简化数据参数的配置
 class BaseResource(Resource):
@@ -58,13 +64,14 @@ class BaseResource(Resource):
     def get_arg(self,key):
         return self.args[key]
 
+
 app = Flask(__name__)
 api = Api(app)
-ip = "0.0.0.0"
 default_port = 5000
 debug = True
 
 
+# 默认服务信息（随机端口）
 def default_config_json():
     import random
     random_port = random.randint(10000, 30000)
@@ -75,28 +82,34 @@ def default_config_json():
     while random_port3 == random_port2 or random_port == random_port2:
         random_port3 = random.randint(10000, 30000)
     init_config_json = {
-        'brook': [{'port': random_port, 'psw': str(random_port), 'state':0}],
-        'shadowsocks': [{'port': random_port2, 'psw': str(random_port2), 'state':0}],
-        'socks5': [{'port': random_port3, 'psw': '', 'username': '', 'state':0}],
+        'brook': [{'port': random_port, 'psw': str(random_port), 'state': 0}],
+        'shadowsocks': [{'port': random_port2, 'psw': str(random_port2), 'state': 0}],
+        'socks5': [{'port': random_port3, 'psw': '', 'username': '', 'state': 0}],
     }
     return init_config_json
 
 
+# 默认用户信息
 def default_user(username="admin", password="admin"):
     return {"user":{"username": username, "password": password}}
 
 
+# 当前服务实时状态对象
 current_brook_state={}
 
+
 import sys
+# 用户信息保存路径
 default_userjson_path = os.path.join(sys.path[0],"static/json/user.json")
+# 服务信息配置保存路径
 config_json_path = os.path.join(sys.path[0],"static/json/brook_state.json")
 
 
+# 基类json对象格式输出函数
 def base_result(msg="", data=None, code=-1):
     return {"msg": msg, "data": data, "code": code}
 
-
+# 读取json文件，若没有对应文件则创建一个json文件、写入myjson的内容
 def load_json(path,myjson):
     if not os.path.exists(path):
         os.system("touch %s" % path)
@@ -113,24 +126,35 @@ def load_json(path,myjson):
     return config_json
 
 
+# 读取服务配置信息
 def load_config_json():
     return load_json( config_json_path, default_config_json() )
 
 
+# 读取用户信息
 def load_default_userjson():
     return load_json( default_userjson_path, default_user() )
 
 
+# 保存当前用户信息
 def save_userjson(userjson):
     with open(default_userjson_path,'w') as f:
         f.write(json.dumps(userjson,ensure_ascii=False))
 
 
+# 保存当前服务配置
 def save_config_json(config_json):
     with open(config_json_path,'w') as f:
         f.write(json.dumps(config_json,ensure_ascii=False))
 
 
+# 输出ico文件
+class Favicon(BaseResource):
+    def get(self):
+        return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico',
+                                   mimetype='image/vnd.microsoft.icon')
+
+# 登录api
 class Login(BaseResource):
     def add_args(self):
         self.add_argument('username', type=str, help='Username')
@@ -151,7 +175,7 @@ class Login(BaseResource):
     def get(self):
         return self.login()
 
-
+# 重置用户信息api
 class ResetPsw(BaseResource):
     def add_args(self):
         self.add_argument('old_username',type=str,help='Old Username')
@@ -186,9 +210,9 @@ class ResetPsw(BaseResource):
     def get(self):
         return self.reset_psw()
 
-#
+# 开启服务api
 # code : 3 服务开启失败
-# code : 4 服务开启失败
+# code : 4 操作繁忙
 # code : -1 用户信息不正确
 #
 class StartService(BaseResource):
@@ -255,7 +279,7 @@ class StartService(BaseResource):
     def post(self):
         return self.start_service()
 
-
+# 停止服务api
 class StopService(BaseResource):
     def add_args(self):
         self.add_argument('username', type=str, help='Username')
@@ -301,7 +325,7 @@ class StopService(BaseResource):
     def post(self):
         return self.stop_service()
 
-
+# 获取服务状态api
 class ServiceState(BaseResource):
     def add_args(self):
          pass
@@ -315,7 +339,7 @@ class ServiceState(BaseResource):
     def post(self):
         return base_result(msg='', code=0, data=self.service_state())
 
-
+# 增加端口api
 class AddPort(BaseResource):
     def add_args(self):
         self.add_argument('type',type=int,help='Service Type')
@@ -342,7 +366,7 @@ class AddPort(BaseResource):
     def post(self):
         return self.add()
 
-
+# 删除端口api
 class DelPort(BaseResource):
     def add_args(self):
         self.add_argument('type', type=int, help='Service Type')
@@ -365,7 +389,7 @@ class DelPort(BaseResource):
     def post(self):
         return self.del_port()
 
-
+# 检查目标端口是否被占用、根据配置信息判断端口是否已被记录
 def is_port_used(port,config_json):
     if port > 0:
         brook_list = config_json['brook']
@@ -386,6 +410,7 @@ def is_port_used(port,config_json):
     return False
 
 
+# 增加端口
 def add_port(username,service_type=SERVICE_TYPE_BROOK, port=-1, psw=''):
     print(service_type,port,psw,username)
     if port == -1 :
@@ -403,6 +428,7 @@ def add_port(username,service_type=SERVICE_TYPE_BROOK, port=-1, psw=''):
         try:
             config_json['socks5'].append({'port': port, 'psw': str(psw), 'username': str(username)})
         except Exception:
+            # 沿袭前作 brook-ok.py 的写法，这里几乎不会执行，先保留以待观察
             import json
             socks5_list_json = []
             socks5_list_json.append({'port': port, 'psw': str(psw), 'username': str(username)})
@@ -419,6 +445,7 @@ def add_port(username,service_type=SERVICE_TYPE_BROOK, port=-1, psw=''):
     return True
 
 
+# 删除端口
 def del_port(service_type=SERVICE_TYPE_BROOK,port=-1):
     if port == -1:
         return False
@@ -462,28 +489,30 @@ def del_port(service_type=SERVICE_TYPE_BROOK,port=-1):
     return False
 
 
+# 获取本机实际对外通信的地址
 def get_host_ip():
     import socket
     s = None
-    global host_ip
+    ip = '127.0.0.1'
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.connect(('8.8.8.8', 80))
         ip = s.getsockname()[0]
     except:
-        if host_ip:ip = host_ip
+        pass
     finally:
         if s:s.close()
     return ip
 
 
+# 记录所有服务的状态
 def record_all_state():
     #print('record_brook_state')
     record_state(SERVICE_TYPE_BROOK)
     record_state(SERVICE_TYPE_SS)
     record_state(SERVICE_TYPE_SOCKS5)
 
-
+# 记录服务状态
 def record_state(service_type=-1):
     if service_type == SERVICE_TYPE_BROOK:
         service_name = 'brook'
@@ -497,6 +526,7 @@ def record_state(service_type=-1):
     else:
         return
     result = os.popen('ps aux|grep brook\ %s' % service_cmomand_name).read()
+    # 正则匹配查找出当前服务的所有端口
     all_results = re.findall("-l :\d+", result)
     final_results = []
     for node in all_results:
@@ -505,6 +535,7 @@ def record_state(service_type=-1):
     config_json = load_config_json()
     global current_brook_state
     current_brook_state[service_name]=[]
+    # 判断当前服务所有端口的状态，并保存到全局变量current_brook_state中去
     for server in config_json[service_name]:
         current_server = {}
         current_server['port'] = server['port']
@@ -515,10 +546,10 @@ def record_state(service_type=-1):
             current_server['state'] = 0
         if service_type == SERVICE_TYPE_SOCKS5:
             current_server['username'] = server['username']
-        current_server['ip'] = get_host_ip()
+        current_server['ip'] = host_ip
         current_brook_state[service_name].append(current_server)
 
-
+# 开启服务
 def start_service(service_type,port=-1,force=False):
     service_name = 'brook'
     if service_type == SERVICE_TYPE_BROOK:
@@ -553,17 +584,19 @@ def start_service(service_type,port=-1,force=False):
     else:
         code1 = -2
         if len(server_list_str) != 0:
+            # 采用brook程序一次开启多个服务端口的命令
             if service_type == SERVICE_TYPE_BROOK:
-                code1 = os.system('nohup '+os.path.join(sys.path[0],'brook')+' servers ' + server_list_str + '>/dev/null 2>log &')
+                code1 = os.system('nohup ./brook servers ' + server_list_str + '>/dev/null 2>log &')
             elif service_type == SERVICE_TYPE_SS:
-                code1 = os.system('nohup '+os.path.join(sys.path[0],'brook')+' ssservers ' + server_list_str + '>/dev/null 2>log &')
+                code1 = os.system('nohup ./brook ssservers ' + server_list_str + '>/dev/null 2>log &')
             elif service_type == SERVICE_TYPE_SOCKS5:
                 if server_list[0]['username'] != '':
                     user_mode = ' --username ' + server_list[0]['username'] + ' --password ' + server_list[0]['psw']
                 else:
+                    # 当socks5服务没有设置用户名时，认为这个socks5服务是无账号、无密码服务
                     user_mode = ''
                 code1 = os.system(
-                    'nohup '+os.path.join(sys.path[0],'brook')+' socks5 ' + server_list_str + '-i ' + get_host_ip() + user_mode + ' >/dev/null 2>log &')
+                    'nohup ./brook socks5 ' + server_list_str + '-i ' + host_ip + user_mode + ' >/dev/null 2>log &')
         if code1 == 0:
             # 这时 brook_pid,ss_pid,socks5_pid未被记录
             has_service_start(service_type)  # 为了记录brook_pid,ss_pid,socks5_pid
@@ -580,6 +613,7 @@ def start_service(service_type,port=-1,force=False):
                 print(' %s Service Start Failed' % service_name)
 
 
+# 停止服务
 def stop_service(service_type=SERVICE_TYPE_BROOK,port=-1,force=False):
     has_service_start(service_type)
     service_name = 'brook'
@@ -617,7 +651,7 @@ def stop_service(service_type=SERVICE_TYPE_BROOK,port=-1,force=False):
         pass
 
 
-
+# 检查服务是否开启（记录对应的服务进程号）
 def has_service_start(service_type=SERVICE_TYPE_BROOK):
     result = os.popen('ps aux | grep brook').read()
     try:
@@ -645,6 +679,7 @@ def has_service_start(service_type=SERVICE_TYPE_BROOK):
     return started
 
 
+# 正则匹配查找对应服务的进程号
 def match_pid(text,service_type=SERVICE_TYPE_BROOK):
     import re
     if service_type == SERVICE_TYPE_BROOK:
@@ -660,6 +695,7 @@ def match_pid(text,service_type=SERVICE_TYPE_BROOK):
     return final_result.group()
 
 
+# 清理后台模式的日志
 def clear_log():
     if os.path.exists('nohup.out'):
         with open('nohup.out','w+') as f:
@@ -687,12 +723,9 @@ class Config(object):
     SCHEDULER_API_ENABLED = True
 
 
-class Favicon(BaseResource):
-    def get(self):
-        return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico',
-                                   mimetype='image/vnd.microsoft.icon')
-
-
+#
+# flask-restful的api对象添加路由信息
+#
 api.add_resource(Favicon,'/favicon.ico')
 api.add_resource(Login,'/api/login')
 api.add_resource(ResetPsw,'/api/resetpsw')
@@ -714,15 +747,19 @@ def user_login():
 
 @app.route("/user")
 def user_edit():
-    title='Brook管理登录'
+    title='Brook后台管理'
     return render_template('user.html',title=title)
 
 @app.route("/test")
 def test_html():
     return render_template('test.html')
 
-import fire
+
+# 修改默认web端口是否错误的标志
 port_error = False
+
+
+# 修改默认web端口
 def change_port(port=5000):
     global default_port,port_error
     if isinstance(port,int):
@@ -751,6 +788,7 @@ def change_port(port=5000):
 # guest_command_tag()
 
 
+# 定时器服务，用于心跳记录当前服务信息
 app.config.from_object(Config())
 scheduler = APScheduler()
 # it is also possible to enable the API directly
@@ -760,6 +798,7 @@ scheduler.start()
 
 if __name__ == '__main__':
 
+    import fire
     fire.Fire(change_port)
 
     if not port_error:
@@ -774,12 +813,16 @@ if __name__ == '__main__':
         #     p.close()
         #
         # kill_result = os.system('killall brook')
+
+        host_ip = get_host_ip()
+
+        # 记录当前运行中的服务，并停止该服务
         if has_service_start(SERVICE_TYPE_BROOK):stop_service(SERVICE_TYPE_BROOK,port=-1)
         if has_service_start(SERVICE_TYPE_SS):stop_service(SERVICE_TYPE_SS,port=-1)
         if has_service_start(SERVICE_TYPE_SOCKS5):stop_service(SERVICE_TYPE_SOCKS5,port=-1)
 
         if not os.path.exists('brook'):
-            print('当前目录下不存在brook程序！请执行 python install-brook.py 或 python3 install-brook.py重试')
+            print('当前目录下不存在brook程序！请执行 python install-brook.py 重试')
         else:
             start_service(SERVICE_TYPE_BROOK)
             start_service(SERVICE_TYPE_SS)
@@ -787,8 +830,8 @@ if __name__ == '__main__':
 
 
         if python_version == '2':
-            reload(sys)
-            sys.setdefaultencoding("utf-8")
+            reload(sys) # python3解释器下可能会提示错误，没关系，因为只有python2运行本程序才会走到这步
+            sys.setdefaultencoding("utf-8") # 同上
 
-        app.run(get_host_ip(), port=default_port, debug=debug)
+        app.run(host=host_ip, port=default_port, debug=debug)
 
