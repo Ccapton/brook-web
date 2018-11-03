@@ -19,10 +19,9 @@ function switchMenu() {
 
 function addPort() {
     clearInterval(state_interval);
-    $(function () { $('#myModal').on('hide.bs.modal', function () {
+    $('#myModal').on('hide.bs.modal', function () {
         clearInterval(state_interval);
         state_interval = setInterval(brook_state, 2000);
-      })
     });
     if (state_jsons[2].length !== 0){
         $("#socks5").hide();
@@ -74,11 +73,11 @@ function refreshPort(){
 
 function delPort() {
     clearInterval(state_interval);
-    $(function () { $('#myModal2').on('hide.bs.modal', function () {
+    $('#myModal2').on('hide.bs.modal', function () {
         clearInterval(state_interval);
         state_interval = setInterval(brook_state, 2000);
-      })
     });
+
 
     refreshPort();
 
@@ -159,11 +158,11 @@ function submit_delport(type,port){
 
 function turnoffAllPort(){
     clearInterval(state_interval);
-    $(function () { $('#myModal3').on('hide.bs.modal', function () {
+    $('#myModal3').on('hide.bs.modal', function () {
         clearInterval(state_interval);
         state_interval = setInterval(brook_state, 2000);
-      })
     });
+
 }
 
 function submitTurnoff(){
@@ -198,19 +197,15 @@ function brook_state(){
     })
 }
 
-brook_state();
-state_interval = setInterval(brook_state, 2000);
-
-
 function judgeCookie(cookie) {
-    $("#login-form").hide();
     if(cookie.username && cookie.password) {
          $.get("api/login",{"username":getCookie().username,"password":getCookie().password},function (result) {
             console.log(result);
             if(result.code != 0){
-                 $(location).attr('href', 'login');
+                $(location).attr('href', 'login');
             }else {
-                $("#login-form").show();
+                brook_state();
+                state_interval = setInterval(brook_state, 2000);
             }
         })
     }else {

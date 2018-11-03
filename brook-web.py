@@ -493,7 +493,7 @@ def del_port(service_type=SERVICE_TYPE_BROOK,port=-1):
 def get_host_ip():
     import socket
     s = None
-    ip = '127.0.0.1'
+    ip = '0.0.0.0'
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.connect(('8.8.8.8', 80))
@@ -698,7 +698,7 @@ def match_pid(text,service_type=SERVICE_TYPE_BROOK):
 # 清理后台模式的日志
 def clear_log():
     if os.path.exists('nohup.out'):
-        with open('nohup.out','w+') as f:
+        with open('nohup.out','w') as f:
             f.write('')
             print('Clear Log')
 
