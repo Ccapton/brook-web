@@ -1,5 +1,5 @@
-# brook-web
-### brook程序服务端Web后台管理服务器（Linux|MacOS），基于python、flask、flask-restful
+# [brook](https://github.com/txthinking/brook)-web
+### [brook](https://github.com/txthinking/brook)程序服务端Web后台管理服务器（Linux|MacOS），基于python、flask、flask-restful
 
 <div align="center">
 <img src="https://raw.githubusercontent.com/Ccapton/brook-web/master/image/brook-web.jpeg" height="350" width="400" >  
