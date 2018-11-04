@@ -112,7 +112,7 @@ echo "mydomain.fun {
  proxy / http://123.123.123.123:5000
 }" > /usr/local/caddy/Caddyfile
 ```
-- 假如使用自定义的https，端口为 5001 ，只能通过 https://mydomain.fun 访问 （不会重定向http到https）
+- 假如使用自定义的https，端口为 5001 ，只能通过 https://mydomain.fun:5001 访问 （不会重定向http到https）
 ``` bash
 echo "mydomain.fun:5001 {
  gzip
