@@ -102,7 +102,8 @@ wget -N --no-check-certificate https://raw.githubusercontent.com/ToyoDAdoubi/dou
 
 > - 域名（请一定要成功解析到你的服务器）为 mydomain.fun, 
 > - 邮箱为 mydomain@gmail.com
-> - 主机ip为 123.123.123.123
+> - 运行brook-web的主机ip为 123.123.123.123
+> - 运行brook-web的端口为 5000
 
 - 默认使用80 端口，443为https端口，即 可通过 http://mydomain.fun 或 https://mydomain.fun 访问
 ``` bash
