@@ -772,6 +772,25 @@ def change_port(port=5000):
         port_error = True
         print('端口号必须为正整数')
 
+
+def config_caddy(email='',domin=''):
+    if email == '':
+        return
+    if domin == '':
+        return
+    caddy_config = "http://%s {" \
+                   " redir https://%s{url}" \
+                   "} " \
+                   "https://%s { " \
+                   " gzip " \
+                   " tls %s" \
+                   " proxy / http://%s:%d " \
+                   "}" % (domin,domin,domin,email,host_ip,default_port)
+
+    caddy_file = 'echo '+caddy_config+' > /usr/local/caddy/Caddyfile'
+    os.system(caddy_file)
+
+
 # command_tag = 'apt'
 # def guest_command_tag():
 #     global command_tag
@@ -797,7 +816,7 @@ scheduler.init_app(app)
 scheduler.start()
 
 if __name__ == '__main__':
-
+    host_ip = get_host_ip()
     import fire
     fire.Fire(change_port)
 
@@ -813,8 +832,6 @@ if __name__ == '__main__':
         #     p.close()
         #
         # kill_result = os.system('killall brook')
-
-        host_ip = get_host_ip()
 
         # 记录当前运行中的服务，并停止该服务
         if has_service_start(SERVICE_TYPE_BROOK):stop_service(SERVICE_TYPE_BROOK,port=-1)
