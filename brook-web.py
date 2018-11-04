@@ -759,10 +759,9 @@ def test_html():
 port_error = False
 
 
-# 修改默认web端口
-def change_port(port=5000):
-    global default_port,port_error
-    if isinstance(port,int):
+def config_param(port=5000,email='',domain=''):
+    global default_port, port_error
+    if isinstance(port, int):
         if port > 0:
             default_port = port
         else:
@@ -771,24 +770,20 @@ def change_port(port=5000):
     else:
         port_error = True
         print('端口号必须为正整数')
-
-
-def config_caddy(email='',domin=''):
     if email == '':
         return
-    if domin == '':
+    if domain == '':
         return
-    caddy_config = "http://%s {" \
-                   " redir https://%s{url}" \
-                   "} " \
-                   "https://%s { " \
-                   " gzip " \
-                   " tls %s" \
-                   " proxy / http://%s:%d " \
-                   "}" % (domin,domin,domin,email,host_ip,default_port)
 
-    caddy_file = 'echo '+caddy_config+' > /usr/local/caddy/Caddyfile'
-    os.system(caddy_file)
+    caddy_file = '''%s {
+     gzip
+     tls %s
+     proxy / http://%s:%d
+}''' % (domain,email,host_ip,default_port)
+    with open('/usr/local/caddy/Caddyfile', 'w') as f:
+        f.write(caddy_file)
+    os.system('service caddy restart')
+
 
 
 # command_tag = 'apt'
@@ -818,7 +813,7 @@ scheduler.start()
 if __name__ == '__main__':
     host_ip = get_host_ip()
     import fire
-    fire.Fire(change_port)
+    fire.Fire(config_param)
 
     if not port_error:
         # import platform
