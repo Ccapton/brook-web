@@ -86,20 +86,23 @@ install-brook.py程序用到的下载程序
 [caddy官方文档](https://caddyserver.com/docs)
 
 ### caddy安装与卸载
-- - 一键安装caddy脚本
+
+- 一键安装caddy脚本
 ``` bash
 wget -N --no-check-certificate https://raw.githubusercontent.com/ToyoDAdoubi/doubi/master/caddy_install.sh && chmod +x caddy_install.sh && bash caddy_install.sh install http.filemanager
 ```
--  一键卸载caddy脚本
+- 一键卸载caddy脚本
 ``` bash
 wget -N --no-check-certificate https://raw.githubusercontent.com/ToyoDAdoubi/doubi/master/caddy_install.sh && chmod +x caddy_install.sh && bash caddy_install.sh uninstall
 ```
 ### caddy配置本项目反向代理https
 **注意: 以下对caddy的操作为覆盖性写入动作，如已经有其他caddy项目，请先备份该配置文件**
+
 示例条件：
+
 > - 域名（请一定要成功解析到你的服务器）为 mydomain.fun, 
-  - 邮箱为 mydomain@gmail.com
-  - 主机ip为 123.123.123.123
+> - 邮箱为 mydomain@gmail.com
+> - 主机ip为 123.123.123.123
 
 - 默认使用80 端口，443为https端口，即 可通过 http://mydomain.fun 或 https://mydomain.fun 访问
 ``` bash
