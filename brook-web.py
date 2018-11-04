@@ -780,9 +780,9 @@ def config_param(port=5000,email='',domain=''):
      tls %s
      proxy / http://%s:%d
 }''' % (domain,email,host_ip,default_port)
-    with open('/usr/local/caddy/Caddyfile', 'w') as f:
-        f.write(caddy_file)
-    os.system('service caddy restart')
+    # with open('/usr/local/caddy/Caddyfile', 'w') as f:
+    #     f.write(caddy_file)
+    # os.system('service caddy restart')
 
 
 
