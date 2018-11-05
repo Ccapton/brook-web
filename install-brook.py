@@ -31,11 +31,11 @@ elif python_version.startswith('3.'):
 # 获取html网页源代码字符串
 def get_html_source(url):
     html_source = ''
-    context = ssl._create_unverified_context()
     try:
         try:
             if python_version == '3':
                 import urllib.request as req
+                context = ssl._create_unverified_context()
                 f = req.urlopen(url,context=context)
             else:
                 import urllib as req
