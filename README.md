@@ -14,12 +14,12 @@
 
 ### 运行镜像
 ``` bash
-docker run --net=host -d capton/brook-web /bin/bash -c "python brook-web.py 5000"
+docker run --net=host -d capton/brook-web:stable-1.0 /bin/bash -c "python brook-web.py 5000"
 ```
 **默认端口5000**
 若要修改服务端口，参考：
 ``` bash
-docker run --net=host -d capton/brook-web /bin/bash -c "python brook-web.py 8080"
+docker run --net=host -d capton/brook-web:stable-1.0 /bin/bash -c "python brook-web.py 8080"
 ```
 # 常规部署
 ### 1、打开终端，以root用户登录
