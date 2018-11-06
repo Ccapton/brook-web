@@ -575,7 +575,10 @@ def record_state(service_type=-1):
         elif service_type == SERVICE_TYPE_SS:
             current_server['link'] = format_ss_link(host_ip,server['psw'],server['port'],pv=python_version)
             current_server['qr_img_path'] = os.path.join('static/img/qr',str(server['port'])+'.png')
-        current_server['linked_num'] = port_linked_num(server['port'])
+        if is_linux():
+            current_server['linked_num'] = port_linked_num(server['port'])
+        else:
+            current_server['linked_num'] = 0
         current_server['port'] = server['port']
         current_server['psw'] = server['psw']
         if server['port'] in final_results:
@@ -852,6 +855,16 @@ scheduler = APScheduler()
 # scheduler.api_enabled = True
 scheduler.init_app(app)
 scheduler.start()
+
+
+def is_linux():
+    import platform
+    sys_name = platform.system()
+    # machine_name = platform.machine().lower()
+    if 'Darwin' == sys_name:
+        return False
+    elif 'Linux' == sys_name:
+        return True
 
 if __name__ == '__main__':
     if python_version == '2':

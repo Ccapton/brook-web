@@ -370,21 +370,22 @@ function update_ui(brook_state_json) {
                                 .removeClass('fui-info-circle').addClass(icon_isenabled).addClass(icon_isenabled_class);
                             $($("#accordion-element"+j+"-"+i).children(".port-detail-p")[0]).text("IP："+state_jsons[j][i].ip);
                             $($("#accordion-element"+j+"-"+i).children(".port-detail-p")[1]).text("端口："+state_jsons[j][i].port);
+                            var port_detail_p = $("#accordion-element" + j + "-" + i).children(".port-detail-p");
                             if (j == 2){
                                 if (state_jsons[j][i].username != '') {
-                                    $($("#accordion-element" + j + "-" + i).children(".port-detail-p")[2]).text("用户：" + state_jsons[j][i].username);
-                                    $($("#accordion-element" + j + "-" + i).children(".port-detail-p")[3]).text("密码：" + state_jsons[j][i].psw);
-                                    $($("#accordion-element" + j + "-" + i).children(".port-detail-p")[4]).text("连接：" + state_jsons[j][i].linked_num);
+                                    $(port_detail_p[2]).text("用户：" + state_jsons[j][i].username);
+                                    $(port_detail_p[3]).text("密码：" + state_jsons[j][i].psw);
+                                    $(port_detail_p[4]).text("连接：" + state_jsons[j][i].linked_num);
                                 }else {
-                                    $($("#accordion-element" + j + "-" + i).children(".port-detail-p")[2]).text("连接：" + state_jsons[j][i].linked_num);
+                                    $(port_detail_p[2]).text("连接：" + state_jsons[j][i].linked_num);
                                 }
                             }else if(j == 1){
-                                $($("#accordion-element"+j+"-"+i).children(".port-detail-p")[2]).text("密码："+state_jsons[j][i].psw);
-                                $($("#accordion-element"+j+"-"+i).children(".port-detail-p")[3]).text("加密方式：aes-256-cfb");
-                                $($("#accordion-element"+j+"-"+i).children(".port-detail-p")[4]).text("连接："+state_jsons[j][i].linked_num);
+                                $(port_detail_p[2]).text("密码："+state_jsons[j][i].psw);
+                                $(port_detail_p[3]).text("加密方式：aes-256-cfb");
+                                $(port_detail_p[4]).text("连接："+state_jsons[j][i].linked_num);
                             }else if(j == 0){
-                                $($("#accordion-element"+j+"-"+i).children(".port-detail-p")[2]).text("密码："+state_jsons[j][i].psw);
-                                $($("#accordion-element"+j+"-"+i).children(".port-detail-p")[3]).text("连接："+state_jsons[j][i].linked_num);
+                                $(port_detail_p[2]).text("密码："+state_jsons[j][i].psw);
+                                $(port_detail_p[3]).text("连接："+state_jsons[j][i].linked_num);
                             }
                         }
                         if (state_jsons[j][i].state == 0){
