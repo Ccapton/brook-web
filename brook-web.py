@@ -404,7 +404,9 @@ def is_port_used(port,config_json):
         for socks5 in socks5_list:
             if port == socks5['port']:
                 return True
-        res = os.popen('lsof -i:'+str(port)).read()
+        pi = os.popen('lsof -i:'+str(port))
+        res = pi.read()
+        pi.close()
         if res != '':
             return True
     return False
@@ -525,7 +527,9 @@ def record_state(service_type=-1):
         service_cmomand_name = 'socks5'
     else:
         return
-    result = os.popen('ps aux|grep brook\ %s' % service_cmomand_name).read()
+    pi = os.popen('ps aux|grep brook\ %s' % service_cmomand_name)
+    result = pi.read()
+    pi.close()
     # 正则匹配查找出当前服务的所有端口
     all_results = re.findall("-l :\d+", result)
     final_results = []
@@ -538,6 +542,7 @@ def record_state(service_type=-1):
     # 判断当前服务所有端口的状态，并保存到全局变量current_brook_state中去
     for server in config_json[service_name]:
         current_server = {}
+        current_server['linked_num'] = port_linked_num(server['port'])
         current_server['port'] = server['port']
         current_server['psw'] = server['psw']
         if server['port'] in final_results:
@@ -651,9 +656,24 @@ def stop_service(service_type=SERVICE_TYPE_BROOK,port=-1,force=False):
         pass
 
 
+# 获取端口已连接的ip数量
+def port_linked_num(port):
+    num=0
+    c = "ss state connected sport = :%d -tn|sed '1d'|awk '{print $NF}'|awk -F ':' '{print $(NF-1)}'|sort -u|wc -l" % port
+    try:
+        pi = os.popen(c)
+        num = int(pi.read())
+        pi.close()
+    except:
+        pass
+    return num
+
+
 # 检查服务是否开启（记录对应的服务进程号）
 def has_service_start(service_type=SERVICE_TYPE_BROOK):
-    result = os.popen('ps aux | grep brook').read()
+    pi = os.popen('ps aux | grep brook')
+    result = pi.read()
+    pi.close()
     try:
         global brook_pid,ss_pid,socks5_pid
         if service_type == SERVICE_TYPE_BROOK:
@@ -775,17 +795,6 @@ def config_param(port=5000,email='',domain=''):
     if domain == '':
         return
 
-    caddy_file = '''%s {
-     gzip
-     tls %s
-     proxy / http://%s:%d
-}''' % (domain,email,host_ip,default_port)
-    # with open('/usr/local/caddy/Caddyfile', 'w') as f:
-    #     f.write(caddy_file)
-    # os.system('service caddy restart')
-
-
-
 # command_tag = 'apt'
 # def guest_command_tag():
 #     global command_tag
@@ -811,6 +820,16 @@ scheduler.init_app(app)
 scheduler.start()
 
 if __name__ == '__main__':
+    if python_version == '2':
+        reload(sys)  # python3解释器下可能会提示错误，没关系，因为只有python2运行本程序才会走到这步
+        sys.setdefaultencoding("utf-8")  # 同上
+
+    try:
+        larger_ram = 'ulimit -n 51200'
+        os.popen(larger_ram).close()
+    except:
+        pass
+
     host_ip = get_host_ip()
     import fire
     fire.Fire(config_param)
@@ -834,16 +853,12 @@ if __name__ == '__main__':
         if has_service_start(SERVICE_TYPE_SOCKS5):stop_service(SERVICE_TYPE_SOCKS5,port=-1)
 
         if not os.path.exists('brook'):
-            print('当前目录下不存在brook程序！请执行 python install-brook.py 重试')
+            print('当前目录下不存在brook程序！请执行 python install-brook.py 后重试')
         else:
             start_service(SERVICE_TYPE_BROOK)
             start_service(SERVICE_TYPE_SS)
             start_service(SERVICE_TYPE_SOCKS5)
 
-
-        if python_version == '2':
-            reload(sys) # python3解释器下可能会提示错误，没关系，因为只有python2运行本程序才会走到这步
-            sys.setdefaultencoding("utf-8") # 同上
 
         app.run(host=host_ip, port=default_port, debug=debug)
 
