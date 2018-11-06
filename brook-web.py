@@ -570,7 +570,7 @@ def record_state(service_type=-1):
     for server in config_json[service_name]:
         current_server = {}
         if service_type == SERVICE_TYPE_BROOK:
-            current_server['link'] = format_brook_link(host_ip,server['port'],server['psw'])
+            current_server['link'] = format_brook_link(host_ip,server['psw'],server['port'])
             current_server['qr_img_path'] = os.path.join('static/img/qr', str(server['port']) + '.png')
         elif service_type == SERVICE_TYPE_SS:
             current_server['link'] = format_ss_link(host_ip,server['psw'],server['port'],pv=python_version)
