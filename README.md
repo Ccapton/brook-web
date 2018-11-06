@@ -2,9 +2,10 @@
 ### [brook](https://github.com/txthinking/brook)程序服务端Web后台管理服务器（Linux|MacOS），基于python、flask、flask-restful，配合[caddy](https://github.com/mholt/caddy)反向代理https
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/Ccapton/brook-web/master/image/brook-web.jpeg" height="350" width="400" >  
-<img src="https://raw.githubusercontent.com/Ccapton/brook-web/master/image/brook-web2.jpeg" height="350" width="400" >  
-<img src="https://raw.githubusercontent.com/Ccapton/brook-web/master/image/brook-web3.jpeg" height="350" width="400" >  
+<img src="https://raw.githubusercontent.com/Ccapton/brook-web/master/image/brook-web.jpeg" height="350" width="400" >        
+<img src="https://raw.githubusercontent.com/Ccapton/brook-web/master/image/brook-web6.png" height="350" width="400" > 
+<img src="https://raw.githubusercontent.com/Ccapton/brook-web/master/image/brook-web7.png" height="350" width="400" > 
+<img src="https://raw.githubusercontent.com/Ccapton/brook-web/master/image/brook-web8.png" height="350" width="400" > 
 <img src="https://raw.githubusercontent.com/Ccapton/brook-web/master/image/brook-web4.jpeg" height="350" width="400" >  
 <img src="https://raw.githubusercontent.com/Ccapton/brook-web/master/image/brook-web5.jpeg" height="350" width="400" >  
 </div>
