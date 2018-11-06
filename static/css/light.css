@@ -188,3 +188,19 @@ body { font-family:Molengo,"Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Mic
 .user-info-item{
     margin-bottom: 15px;
 }
+
+.copy-link-btn{
+    position: relative;
+    top: -4px;
+    float: right;
+    right: 8px;
+    color: #34e0bb;
+}
+
+.qr-img-btn{
+    float: right;
+    position: relative;
+    right: 20px;
+    bottom: 4px;
+    color: #34e0bb;
+}

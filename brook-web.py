@@ -18,6 +18,7 @@ from flask_apscheduler import APScheduler
 from flask_restful import Api
 from flask_restful import Resource,reqparse
 import json, os, re, sys
+from qr import *
 
 # 判断当前Python执行大版本
 python_version = sys.version
@@ -389,6 +390,32 @@ class DelPort(BaseResource):
     def post(self):
         return self.del_port()
 
+
+# 生成二维码api
+class GenerateQrImg(BaseResource):
+    def add_args(self):
+        self.add_argument('type',type=int,help='Service Type')
+        self.add_argument('ip',type=str,help='Service Ip')
+        self.add_argument('password',type=str,help='Service Password')
+        self.add_argument('port',type=int,help='Service Port')
+
+    def generate_qr_image(self):
+        type = self.get_arg('type')
+        port = self.get_arg('port')
+        password = self.get_arg('password')
+        ip = self.get_arg('ip')
+        if type == SERVICE_TYPE_SS:
+            if port <= 0 :
+                return base_result(msg='Port must > 0',code=-2)
+            if generate_qr_image(format_ss_link(ip,password,port,python_version),port):
+                return base_result('GenerateQrImg successful!',code=0)
+        return base_result('GenerateQrImg failed')
+    def get(self):
+        return self.generate_qr_image()
+    def post(self):
+        return self.generate_qr_image()
+
+
 # 检查目标端口是否被占用、根据配置信息判断端口是否已被记录
 def is_port_used(port,config_json):
     if port > 0:
@@ -542,6 +569,12 @@ def record_state(service_type=-1):
     # 判断当前服务所有端口的状态，并保存到全局变量current_brook_state中去
     for server in config_json[service_name]:
         current_server = {}
+        if service_type == SERVICE_TYPE_BROOK:
+            current_server['link'] = format_brook_link(host_ip,server['port'],server['psw'])
+            current_server['qr_img_path'] = os.path.join('static/img/qr', str(server['port']) + '.png')
+        elif service_type == SERVICE_TYPE_SS:
+            current_server['link'] = format_ss_link(host_ip,server['psw'],server['port'],pv=python_version)
+            current_server['qr_img_path'] = os.path.join('static/img/qr',str(server['port'])+'.png')
         current_server['linked_num'] = port_linked_num(server['port'])
         current_server['port'] = server['port']
         current_server['psw'] = server['psw']
@@ -754,6 +787,7 @@ api.add_resource(StopService,'/api/stopservice')
 api.add_resource(ServiceState,'/api/servicestate')
 api.add_resource(AddPort,'/api/addport')
 api.add_resource(DelPort,'/api/delport')
+api.add_resource(GenerateQrImg,'/api/generateqrimg')
 
 @app.route("/")
 def brook_web():
