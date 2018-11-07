@@ -100,6 +100,11 @@ function submit_addport() {
     var port = $('#port').val();
     var psw = $('#psw').val();
     var username = $('#username').val();
+    var info = $('#info').val();
+    if (info.length > 10) {
+        alert('备注字符串长度不能大于10');
+        return;
+    }
     if (port <= 0 || Number.isInteger(port)) {
         alert('端口号请使用正整数');
         return;
@@ -117,12 +122,13 @@ function submit_addport() {
             alert('密码不能为空');
             return;
     }
-    $.get('api/addport',{'type':type,'port':Number(port),'password':psw,'username':username},function (result,status) {
+    $.get('api/addport',{'type':type,'port':Number(port),'password':psw,'username':username,'info':info},function (result,status) {
         console.log(status);
         if (result.code == 0){
                 $('#port').val(null);
                 $('#psw').val('');
                 $('#username').val('');
+                $('#info').val('');
                 $("#radio-brook").prop('checked',true);
                 $("#radio-ss").prop('checked',false);
                 $("#radio-socks5").prop('checked',false);
@@ -265,6 +271,8 @@ judgeCookie(getCookie());
 
 function update_ui(brook_state_json) {
     state_jsons = [brook_state_json.brook,brook_state_json.shadowsocks,brook_state_json.socks5];
+        if (state_jsons.length == 0)
+            return;
             for (var j = 0; j < 3; j++) {
                 if ($("#accordion-"+j).length == 0){
                     $("#panel-"+(j+1)).append(accordions[j]);
@@ -304,7 +312,8 @@ function update_ui(brook_state_json) {
                             }
                             var child_port = '<div class="accordion-group"  id="port-item'+j+'-'+i+'"><div class="accordion-heading '+isenabled+'"><a class=' +
                                 '"accordion-toggle collapsed port-a" style="color:white" contenteditable="false" data-parent="#accordion-'+j+'" ' +
-                                'data-toggle="collapse" href="#accordion-element'+j+'-'+i+'">端口：'+state_jsons[j][i].port+'</a>' +
+                                'data-toggle="collapse" href="#accordion-element'+j+'-'+i+'">端口：'+state_jsons[j][i].port+
+                                '<span class="port-info-span">'+state_jsons[j][i].info+'</span>'+'</a>' +
                                 '<span id="icon'+j+'-'+i+'" class="'+icon_isenabled_class+' '+icon_isenabled+'"></span></div><div class=' +
                                 '"accordion-body collapse" id="accordion-element'+j+'-'+i+'" style="height: 0px;">' +
                                 '<p class="port-detail-p">IP：'+state_jsons[j][i].ip+'</p>' +
@@ -356,7 +365,8 @@ function update_ui(brook_state_json) {
                 }else {
                     for (var i = 0; i < state_jsons[j].length; i++) {
                         if ($("#port-item"+j+"-"+i).length != 0){
-                            $("#port-item"+j+"-"+i).find('a').first().text('端口：'+state_jsons[j][i].port);
+                            $("#port-item"+j+"-"+i).find('a').first().html('端口：'+state_jsons[j][i].port+
+                                '<span class="port-info-span">'+state_jsons[j][i].info+'</span>');
                             var isenabled = 'port';
                             var icon_isenabled = 'icon-enabled';
                             var icon_isenabled_class = 'fui-check-circle';
