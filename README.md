@@ -22,7 +22,7 @@ docker run --net=host -v /root/brook-web:/root/brook-web -d capton/brook-web /bi
 ``` bash
 docker run --net=host -v /root/brook-web:/root/brook-web -d capton/brook-web /bin/bash -c "python brook-web.py 8080"
 ```
-**挂载在本地的/root/brook-web下，如需修改本地项目保存，路径则改　-v　后面第一个路径**
+**挂载在本地的/root/brook-web下，如需修改本地项目保存路径，则改　-v　后面第一个路径**
 
 # 常规部署
 ### 1、打开终端，以root用户登录
