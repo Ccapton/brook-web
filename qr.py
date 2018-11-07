@@ -26,7 +26,8 @@ def generate_qr_image(content,port):
         if not os.path.exists(os.path.join(sys.path[0], 'static/img/qr')):
             os.mkdir(os.path.join(sys.path[0], 'static/img/qr'))
         img.save(os.path.join(sys.path[0], 'static/img/qr', str(port) + '.png'))
-    except:
+    except Exception as e:
+        print(e)
         return False
     return True
 
