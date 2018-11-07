@@ -467,8 +467,9 @@ def add_port(username,service_type=SERVICE_TYPE_BROOK, port=-1, psw='',info=''):
     busy = True
     save_config_json(new_config_json)
     busy = False
-    refuse_port([port])
-    release_port([port])
+    if is_linux():
+        refuse_port([port])
+        release_port([port])
     stop_service(service_type=service_type)
     start_service(service_type=service_type,port=port)
     return True
