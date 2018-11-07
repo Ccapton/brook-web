@@ -10,19 +10,9 @@
 <img src="https://raw.githubusercontent.com/Ccapton/brook-web/master/image/brook-web5.jpeg" height="350" width="400" >  
 </div>
 
-# Docker部署 
-[**docker项目地址**](https://hub.docker.com/r/capton/brook-web/)
+# Docker部署  
 
-### 运行镜像
-``` bash
-docker run --net=host -v /root/brook-web:/root/brook-web -d capton/brook-web /bin/bash -c "python brook-web.py 5000"
-```
-**默认端口5000**
-若要修改服务端口，参考：
-``` bash
-docker run --net=host -v /root/brook-web:/root/brook-web -d capton/brook-web /bin/bash -c "python brook-web.py 8080"
-```
-**挂载在本地的/root/brook-web下，如需修改本地项目保存路径，则改　-v　后面第一个路径**
+[**参考Docker部署WiKi**](https://github.com/Ccapton/brook-web/wiki/Docker%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B)
 
 # 常规部署
 ### 1、打开终端，以root用户登录
