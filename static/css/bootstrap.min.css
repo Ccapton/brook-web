@@ -2887,7 +2887,6 @@ textarea.input-group-sm>.form-control,textarea.input-group-sm>.input-group-addon
 }
 .nav {
 	padding-left:0;
-	margin-bottom:0;
 	list-style:none
 }
 .nav:before,.nav:after {
