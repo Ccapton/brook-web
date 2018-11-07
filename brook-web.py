@@ -865,6 +865,7 @@ def is_linux():
         return False
     elif 'Linux' == sys_name:
         return True
+    return False
 
 if __name__ == '__main__':
     if python_version == '2':
