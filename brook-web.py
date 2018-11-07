@@ -83,10 +83,15 @@ def default_config_json():
         random_port2 = random.randint(10000, 30000)
     while random_port3 == random_port2 or random_port == random_port2:
         random_port3 = random.randint(10000, 30000)
+    # init_config_json = {
+    #     'brook': [{'port': random_port, 'psw': str(random_port), 'state': 0}],
+    #     'shadowsocks': [{'port': random_port2, 'psw': str(random_port2), 'state': 0}],
+    #     'socks5': [{'port': random_port3, 'psw': '', 'username': '', 'state': 0}],
+    # }
     init_config_json = {
-        'brook': [{'port': random_port, 'psw': str(random_port), 'state': 0}],
-        'shadowsocks': [{'port': random_port2, 'psw': str(random_port2), 'state': 0}],
-        'socks5': [{'port': random_port3, 'psw': '', 'username': '', 'state': 0}],
+        'brook': [{'port':6666, 'psw': '6666', 'state': 0,'info':'若无法开启,删除后再添加'}],
+        'shadowsocks': [],
+        'socks5': [],
     }
     return init_config_json
 
