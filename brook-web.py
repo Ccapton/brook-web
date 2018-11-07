@@ -19,6 +19,7 @@ from flask_restful import Api
 from flask_restful import Resource,reqparse
 import json, os, re, sys
 from qr import *
+from iptables import release_port,refuse_port
 
 # 判断当前Python执行大版本
 python_version = sys.version
@@ -347,17 +348,19 @@ class AddPort(BaseResource):
         self.add_argument('port',type=int,help='Service Port')
         self.add_argument('password',type=str,help='Service Password')
         self.add_argument('username',type=str,help='Service Username')
+        self.add_argument('info',type=str,help='Service Info')
 
     def add(self):
         type = self.get_arg('type')
         port = self.get_arg('port')
         password = self.get_arg('password')
         username = self.get_arg('username')
+        info = self.get_arg('info')
         if busy:
             return base_result(msg='Server Busy!,Try Again Later.',code=4)
         if is_port_used(port,current_brook_state):
             return base_result(msg='Port has been used!',code=-2)
-        if add_port(service_type=type,port=port,psw=password,username=username):
+        if add_port(service_type=type,port=port,psw=password,username=username,info=info):
             return base_result(msg='Add Port Successful!',code=0)
         return base_result(msg='Add Port Failed!',code=-1)
 
@@ -440,7 +443,7 @@ def is_port_used(port,config_json):
 
 
 # 增加端口
-def add_port(username,service_type=SERVICE_TYPE_BROOK, port=-1, psw=''):
+def add_port(username,service_type=SERVICE_TYPE_BROOK, port=-1, psw='',info=''):
     print(service_type,port,psw,username)
     if port == -1 :
         return False
@@ -450,25 +453,17 @@ def add_port(username,service_type=SERVICE_TYPE_BROOK, port=-1, psw=''):
     config_json = load_config_json()
     new_config_json = config_json
     if service_type == SERVICE_TYPE_BROOK:
-        config_json['brook'].append({'port': port, 'psw': str(psw)})
+        config_json['brook'].append({'port': port, 'psw': str(psw),'info':info})
     elif service_type == SERVICE_TYPE_SS:
-        config_json['shadowsocks'].append({'port': port, 'psw': str(psw)})
+        config_json['shadowsocks'].append({'port': port, 'psw': str(psw),'info':info})
     elif service_type == SERVICE_TYPE_SOCKS5:
-        try:
-            config_json['socks5'].append({'port': port, 'psw': str(psw), 'username': str(username)})
-        except Exception:
-            # 沿袭前作 brook-ok.py 的写法，这里几乎不会执行，先保留以待观察
-            import json
-            socks5_list_json = []
-            socks5_list_json.append({'port': port, 'psw': str(psw), 'username': str(username)})
-            config_json_str = json.dumps(config_json)
-            new_config_json_str = config_json_str[:len(config_json_str) - 1] + ', "socks5": ' + json.dumps(
-                socks5_list_json) + '}'
-            new_config_json = json.loads(new_config_json_str)
+        config_json['socks5'].append({'port': port, 'psw': str(psw), 'username': str(username),'info':info})
     global busy
     busy = True
     save_config_json(new_config_json)
     busy = False
+    refuse_port([port])
+    release_port([port])
     stop_service(service_type=service_type)
     start_service(service_type=service_type,port=port)
     return True
@@ -588,6 +583,10 @@ def record_state(service_type=-1):
         if service_type == SERVICE_TYPE_SOCKS5:
             current_server['username'] = server['username']
         current_server['ip'] = host_ip
+        if server.get('info'):
+            current_server['info'] = server['info']
+        else:
+            current_server['info'] = ''
         current_brook_state[service_name].append(current_server)
 
 # 开启服务
@@ -766,7 +765,7 @@ class Config(object):
             'func': record_all_state,
             #'args': (1, 2),
             'trigger': 'interval',
-            'seconds': 1.5
+            'seconds': 2
         },
         {
             'id': 'job2',
@@ -865,6 +864,7 @@ def is_linux():
         return False
     elif 'Linux' == sys_name:
         return True
+    return False
 
 if __name__ == '__main__':
     if python_version == '2':
