@@ -47,7 +47,8 @@ function submitEditUser() {
              $.cookie("username",username,{ expires: 7 });
              $.cookie("psw",password,{ expires: 7 });
              showUserInfo();
-             alert('修改成功')
+             alert('修改成功');
+             $(location).attr('href', '/');
         } else {
             alert('修改失败')
         }
