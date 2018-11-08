@@ -84,7 +84,7 @@ body { font-family:Molengo,"Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Mic
     margin-bottom: 10px;
     border: none;
     border-radius: 6px;
-	background-color: #1abc9c;
+	background-color: #34e0bb;
 	color: white;
 }
 .port-red {
@@ -111,7 +111,7 @@ body { font-family:Molengo,"Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Mic
 	float:right;
 	margin-right: 10px;
 	margin-top: 13px;
-	background-color: #1abc9c;
+	background-color: #34e0bb;
 	color:white
 }
 
@@ -182,7 +182,7 @@ body { font-family:Molengo,"Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Mic
         .toggle-button:checked + label.button-label .on{ display: inline-block; }
         .toggle-button:checked + label.button-label .off{ display: none; }
         .toggle-button:checked + label.button-label{
-            background-color: #1abc9c;
+            background-color: #34e0bb;
         }
 
 .user-info-item{
@@ -194,7 +194,7 @@ body { font-family:Molengo,"Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Mic
     top: -4px;
     float: right;
     right: 8px;
-    color: #1abc9c;
+    color: #34e0bb;
 }
 
 .qr-img-btn{
@@ -202,7 +202,7 @@ body { font-family:Molengo,"Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Mic
     position: relative;
     right: 20px;
     bottom: 4px;
-    color: #1abc9c;
+    color: #34e0bb;
 }
 .port-info-span{
     padding-left: 10px;
