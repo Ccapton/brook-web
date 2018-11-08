@@ -1,132 +1,101 @@
-{% extends 'base.html' %}
-{% block content %}
-    <div class="container mt">
-          <div class="row-centered" id="login-form">
-                <div class="login-form col-centered">
-                    <div class="form-group">
-                        <input type="text" class="form-control login-field" value="" placeholder="用户" id="login-name">
-                        <label class="login-field-icon fui-user" for="login-name"></label>
-                    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title><meta name="description" content="Flat UI Kit Free is a Twitter Bootstrap Framework design and Theme, this responsive framework includes a PSD and HTML version."/>
 
-                    <div class="form-group">
-                        <input type="password" class="form-control login-field" value="" placeholder="密码" id="login-pass">
-                        <label class="login-field-icon fui-lock" for="login-pass"></label>
-                    </div>
+    <meta name="viewport" content="width=1000, initial-scale=1.0, maximum-scale=1.0">
 
-                    <a class="btn btn-success btn-lg btn-block" onclick="login()" href="#">登录</a>
-                 </div>
+    <!-- Loading Bootstrap -->
+    <link href="static/dist/css/vendor/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Loading Flat UI -->
+    <link href="static/dist/css/flat-ui.css" rel="stylesheet">
+    <link href="static/docs/assets/css/demo.css" rel="stylesheet">
+
+    <link rel="shortcut icon" href="dist/favicon.ico">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="static/dist/js/vendor/html5shiv.js"></script>
+      <script src="static/dist/js/vendor/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="">
+      <div class="demo-headline">
+        <h1 class="demo-logo">
+          <div class="logo"></div>
+          Flat UI
+          <small>Free User Interface Kit</small>
+        </h1>
+      </div> <!-- /demo-headline -->
+
+
+      <h3 class="demo-panel-title">Navbar</h3>
+      <div onclick="swicth()" id="switch" class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-id-custom-switch-02 bootstrap-switch-on"><div class="bootstrap-switch-container"><span class="bootstrap-switch-handle-on bootstrap-switch-primary">ON</span><label class="bootstrap-switch-label">&nbsp;</label><span class="bootstrap-switch-handle-off bootstrap-switch-default">OFF</span><input type="checkbox" data-toggle="switch" id="custom-switch-02"></div></div>
+
+      <script>
+        function swicth(){
+            myswitch=$("#switch");
+            if (myswitch.hasClass('bootstrap-switch-on'))
+                myswitch.removeClass('bootstrap-switch-on').addClass('bootstrap-switch-off');
+            else if (myswitch.hasClass('bootstrap-switch-off'))
+                myswitch.removeClass('bootstrap-switch-off').addClass('bootstrap-switch-on')
+        }
+
+      </script>
+
+
+    </div> <!-- /container -->
+
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-7">
+            <h3 class="footer-title">Subscribe</h3>
+            <p>Do you like this freebie? Want to get more stuff like this?<br/>
+              Subscribe to designmodo news and updates to stay tuned on great designs.<br/>
+              Go to: <a href="https://designmodo.com/flat-free" target="_blank">designmodo.com/flat-free</a>
+            </p>
+
+            <p class="pvl">
+              <a href="https://twitter.com/share" class="twitter-share-button" data-url="https://designmodo.com/flat-free/" data-text="Flat UI Free - PSD&amp;amp;HTML User Interface Kit" data-via="designmodo">Tweet</a>
+							<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+              <iframe src="http://ghbtns.com/github-btn.html?user=designmodo&repo=Flat-UI&type=watch&count=true" height="20" width="107" frameborder="0" scrolling="0" style="width:105px; height: 20px;" allowTransparency="true"></iframe>
+              <iframe src="http://ghbtns.com/github-btn.html?user=designmodo&repo=Flat-UI&type=fork&count=true" height="20" width="107" frameborder="0" scrolling="0" style="width:105px; height: 20px;" allowTransparency="true"></iframe>
+              <iframe src="http://ghbtns.com/github-btn.html?user=designmodo&type=follow&count=true" height="20" width="195" frameborder="0" scrolling="0" style="width:195px; height: 20px;" allowTransparency="true"></iframe>
+            </p>
+
+            <a class="footer-brand" href="http://designmodo.com" target="_blank">
+              <img src="docs/assets/images/demo/logo.png" alt="Designmodo.com" />
+            </a>
+          </div> <!-- /col-7 -->
+
+          <div class="col-5">
+            <div class="footer-banner">
+              <h3 class="footer-title">Get Flat UI Pro</h3>
+              <ul>
+                <li>Tons of Basic and Custom UI Elements</li>
+                <li>A Lot of Useful Samples</li>
+                <li>More Vector Icons and Glyphs</li>
+                <li>Pro Color Swatches</li>
+                <li>Bootstrap Based HTML/CSS/JS Layout</li>
+              </ul>
+              Go to: <a href="https://designmodo.com/flat" target="_blank">designmodo.com/flat</a>
             </div>
-    </div>
-    <div class="span4">
-          <div class="todo mrm">
-            <div class="todo-search">
-              <input class="todo-search-field" type="search" value="" placeholder="Search">
-            </div>
-            <ul>
-              <li class="todo-done">
-                <div class="todo-icon fui-plus-circle"></div>
-                <div class="todo-content">
-                  <h4 class="todo-name">
-                    Meet <strong>Adrian</strong> at <strong>6pm</strong>
-                  </h4>
-                  Times Square
-                </div>
-              </li>
-
-              <li>
-                <div class="todo-icon fui-menu-24"></div>
-                <div class="todo-content">
-                  <h4 class="todo-name">
-                    Chat with <strong>V.Kudinov</strong>
-                  </h4>
-                  Skype conference an 9 am
-                </div>
-              </li>
-
-              <li>
-                <div class="todo-icon fui-eye-24"></div>
-                <div class="todo-content">
-                  <h4 class="todo-name">
-                    Watch <strong>Iron Man</strong>
-                  </h4>
-                  1998 Broadway
-                </div>
-              </li>
-
-              <li>
-                <div class="todo-icon fui-time-24"></div>
-                <div class="todo-content">
-                  <h4 class="todo-name">
-                    Fix bug on a <strong>Website</strong>
-                  </h4>
-                  As soon as possible
-                </div>
-              </li>
-            </ul>
           </div>
         </div>
+      </div>
+    </footer>
 
-    <div class="ports-del">
-        <input name="tagsinput" class="tagsinput" data-role="tagsinput" value="School, Teacher, Colleague" style="display: none;">
-        <div class="bootstrap-tagsinput">
-            <span class="tag label label-info">School<span data-role="remove"></span></span>
-            <span class="tag label label-info"> Teacher<span data-role="remove"></span></span>
-            <span class="tag label label-info"> Colleague<span data-role="remove"></span></span>
-            <input type="text" placeholder="" style="width: 3em !important;"></div>
-    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <!-- Bootstrap 4 requires Popper.js -->
+    <script src="https://unpkg.com/popper.js@1.14.1/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="http://vjs.zencdn.net/6.6.3/video.js"></script>
+    <script src="static/dist/scripts/flat-ui.js"></script>
+    <script src="static/docs/assets/js/application.js"></script>
 
-    <label class="radio">
-            <input type="radio" name="optionsRadios" id="optionsRadios1" value="0" data-toggle="radio" class="custom-radio"><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
-            Brook
-    </label>
-    <label class="radio">
-            <input type="radio" name="optionsRadios" id="optionsRadios1" value="1" data-toggle="radio" checked="" class="custom-radio"><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
-            ShadowsSocks
-    </label>
-    <label class="radio">
-            <input type="radio" name="optionsRadios" id="optionsRadios1" value="2" data-toggle="radio" class="custom-radio"><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
-            Socks5
-    </label>
-
-{#    //添加navbar-fixed-top可以让导航条一直固定在顶部，不会因为滚动条改变而改变，navbar-inverse让导航条黑底展示#}
-<nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
-　　<div class="container">　　//container让导航条居中container-fluid让导航条自适应
-
-　　
-　　　　<div class="navbar-header">
-{#　　　　　　//粉色字体代表响应式布局：当浏览器宽度小于某个值时导航栏折叠变成三道杠#}
-            <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" type="button">
-                <span class="sr-only">看看这是什么</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-
-            </button>
-{#       //绿色代表导航栏左侧logo或者图标    #}
-　　　　 　　<a class="navbar-brand" href="www.baidu.com">浏览器博物馆</a>
-        </div>
-{#　　　　//棕色包裹项目是导航条内容，为了响应式布局，点击三道杠弹出导航栏#}
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
-{#　　　　　　　　//紫色代表导航栏中的项目#}
-　　　　　　 <ul class="nav navbar-nav">
-                <li><a href="www.baidu.com">综述</a></li>
-                <li>
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="www.baidu.com">简述<span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">谷歌浏览器</a></li>
-                        <li><a href="#">IE浏览器</a></li>
-                        <li><a href="#">360浏览器</a></li>
-                        <li><a href="#">谷歌火狐浏览器</a></li>
-
-                    </ul>
-　　　　　　　　　　</li>
-                <li><a href="www.baidu.com">特点</a></li>
-                <li><a href="www.baidu.com">关于</a></li>
-
-            </ul>
-        </div>
-    </div>
-</nav>
-
-{% endblock %}
+  </body>
+</html>
