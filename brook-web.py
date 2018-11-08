@@ -588,6 +588,8 @@ def record_state(service_type=-1):
             current_server['state'] = 0
         if service_type == SERVICE_TYPE_SOCKS5:
             current_server['username'] = server['username']
+        elif service_type == SERVICE_TYPE_SS:
+            current_server['encode_method'] = 'aes-256-cfb'
         current_server['ip'] = host_ip
         if server.get('info'):
             current_server['info'] = server['info']

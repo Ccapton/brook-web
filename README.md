@@ -1,5 +1,8 @@
 # [brook](https://github.com/txthinking/brook)-web
-### [brook](https://github.com/txthinking/brook)程序服务端Web后台管理服务器（Linux|MacOS），基于python、flask、flask-restful，配合[caddy](https://github.com/mholt/caddy)反向代理https
+### [brook](https://github.com/txthinking/brook)程序服务端Web后台管理服务器（Linux|MacOS），基于python、flask、flask-restful
+
+### [安全性说明WiKi](https://github.com/Ccapton/brook-web/wiki/%E5%AE%89%E5%85%A8%E6%80%A7%E8%AF%B4%E6%98%8E)
+### [点我查看项目WiKi](https://github.com/Ccapton/brook-web/wiki)
 
 <div align="center">
 <img src="https://raw.githubusercontent.com/Ccapton/brook-web/master/image/brook-web.jpeg" height="350" width="400" >        

@@ -292,7 +292,7 @@ function update_ui(brook_state_json) {
                             }
                             var linked_num_item = '<p class="port-detail-p">连接：'+state_jsons[j][i].linked_num+'</p>';
                             var psw_item = '<p class="port-detail-p">密码：'+state_jsons[j][i].psw+'</p>';
-                            var encode_method_item = '<p class="port-detail-p">加密方式：aes-256-cfb</p>';
+
                             var username_item = '<p class="port-detail-p">用户：'+state_jsons[j][i].username+'</p>';
                             var info_items = '';
                             var link_copy_item = '<a href="#myModal4" data-toggle="modal"><span id="copy-link-btn'+j+'-'+i+'" class="fui-link copy-link-btn" ></span></a>';
@@ -305,6 +305,7 @@ function update_ui(brook_state_json) {
                                 else
                                     info_items = username_item + psw_item +linked_num_item;
                             }else if (j == 1){
+                                var encode_method_item = '<p class="port-detail-p">加密方式：'+state_jsons[j][i].encode_method+'</p>';
                                 info_items = psw_item + encode_method_item + linked_num_item;
                             }else if (j == 0){
                                 info_items = psw_item + linked_num_item;
@@ -391,7 +392,7 @@ function update_ui(brook_state_json) {
                                 }
                             }else if(j == 1){
                                 $(port_detail_p[2]).text("密码："+state_jsons[j][i].psw);
-                                $(port_detail_p[3]).text("加密方式：aes-256-cfb");
+                                $(port_detail_p[3]).text("加密方式："+state_jsons[j][i].encode_method);
                                 $(port_detail_p[4]).text("连接："+state_jsons[j][i].linked_num);
                             }else if(j == 0){
                                 $(port_detail_p[2]).text("密码："+state_jsons[j][i].psw);
