@@ -13,11 +13,10 @@
 <img src="https://raw.githubusercontent.com/Ccapton/brook-web/master/image/brook-web5.jpeg" height="350" width="400" >  
 </div>
 
-# [Docker部署](https://github.com/Ccapton/brook-web/wiki/Docker%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B) 
+# 方式一、[Docker部署](https://github.com/Ccapton/brook-web/wiki/Docker%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B) 
 
 
-
-# 常规部署
+# 方式二、常规部署
 ### 1、打开终端，以root用户登录
 ### 2、使用 cd 命令 进入brook-web文件夹 
 ### 3、安装所依赖的库、框架

@@ -108,6 +108,9 @@ function submit_addport() {
     if (port <= 0 || Number.isInteger(port)) {
         alert('端口号请使用正整数');
         return;
+    } else if (port < 1024){
+        alert('0-1023为系统保留端口');
+        return;
     }
     if (username == null || username === undefined || username == '') {
         console.log('增加一个不使用账号的端口服务');

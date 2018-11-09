@@ -205,7 +205,30 @@ body { font-family:Molengo,"Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Mic
     color: #34e0bb;
 }
 .port-info-span{
-    padding-left: 20px;
-    font-size: 6px;
+    padding-left: 10px;
+    font-size: 10px;
     font-style: normal;
+}
+.mytab{
+    position: relative;
+    display: block;
+    margin: 20px 0;
+    border-radius: 4px;
+
+}
+.mytab ul{
+     list-style: none;
+}
+.mytab li{
+    display: inline-block;
+    margin-right: -3px;
+    vertical-align: middle;
+    word-spacing: normal;
+}
+
+.marging0{
+    margin: 0 0 0 0;
+}
+.padding0{
+    padding: 0 0 0 0;
 }

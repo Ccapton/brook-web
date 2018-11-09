@@ -4,21 +4,23 @@
 
             <div class="container" id="center-part">
 
-                <div class="container-fluid">
+                <div class="">
                     <div class="row-fluid">
                         <div class="span12">
                             <div class="tabbable" id="tabs-1">
-                                <ul class="nav nav-tabs">
-                                    <li class="active">
-                                        <a data-toggle="tab" href="#panel-1">Brook</a>
-                                    </li>
-                                    <li>
-                                        <a data-toggle="tab" href="#panel-2">ShadowSocks</a>
-                                    </li>
-                                    <li>
-                                        <a data-toggle="tab" href="#panel-3">Socks5</a>
-                                    </li>
-                                </ul>
+                                <div class="pagination" style="display: inline-block">
+                                    <ul class="nav nav-tabs" style="padding:0 0 0 0;background-color:#CCCCCC;height: auto">
+                                         <li class="active">
+                                             <a data-toggle="tab" href="#panel-1" aria-expanded="true">Brook</a>
+                                         </li>
+                                        <li>
+                                             <a data-toggle="tab" href="#panel-2" aria-expanded="false">ShadowSocks</a>
+                                         </li>
+                                        <li>
+                                             <a data-toggle="tab" href="#panel-3" aria-expanded="false">Socks5</a>
+                                         </li>
+                                    </ul>
+                                </div>
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="panel-1">
                                     </div>
@@ -47,8 +49,6 @@
 	    <div class="modal-dialog">
 		    <div class="modal-content">
 			    <div class="modal-header">
-				    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
-				    </button>
 				    <h4 class="modal-title" id="myModalLabel">
 				    	增加一个端口
 				    </h4>
@@ -80,7 +80,7 @@
 			    </div>
 			    <div class="modal-footer">
 				    <button type="button" class="btn btn-default" data-dismiss="modal">
-				    	关闭
+				    	取消
 				    </button>
 				    <button type="button" class="btn btn-primary" onclick="submit_addport()">
 				    	提交
@@ -95,8 +95,6 @@
 	    <div class="modal-dialog">
 		    <div class="modal-content">
 			    <div class="modal-header">
-				    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
-				    </button>
 				    <h4 class="modal-title" id="myModalLabel2">
 				    	删除一个端口
 				    </h4>
@@ -125,7 +123,7 @@
 			    </div>
 			    <div class="modal-footer">
 				    <button type="button" class="btn btn-default" data-dismiss="modal">
-				    	关闭
+				    	取消
 				    </button>
 {#				    <button type="button" class="btn btn-primary" onclick="submit_delport()">#}
 {#				    	提交#}
@@ -139,8 +137,6 @@
 	    <div class="modal-dialog">
 		    <div class="modal-content">
 			    <div class="modal-header">
-				    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
-				    </button>
 				    <h4 class="modal-title" id="myModalLabel3">
 				    	关闭服务
 				    </h4>
@@ -169,7 +165,7 @@
 			    </div>
 			    <div class="modal-footer">
 				    <button type="button" class="btn btn-default" data-dismiss="modal">
-				    	关闭
+				    	取消
 				    </button>
 				    <button type="button" class="btn btn-primary" onclick="submitTurnoff()">
 				    	提交
@@ -182,8 +178,6 @@
 	    <div class="modal-dialog">
 		    <div class="modal-content">
 			    <div class="modal-header">
-				    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
-				    </button>
 				    <h4 class="modal-title" id="myModalLabel4">
 
 				    </h4>
@@ -203,8 +197,6 @@
 	    <div class="modal-dialog">
 		    <div class="modal-content">
 			    <div class="modal-header" style="display: none">
-				    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
-				    </button>
 				    <h4 class="modal-title" id="myModalLabel5">
 
 				    </h4>
