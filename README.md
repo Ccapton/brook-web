@@ -39,7 +39,7 @@ python brook-web.py
 ```
 后台模式
 ``` bash
-nohup python brook-web.py &
+nohup python brook-web.py >/dev/null 2>log &
 ```
 
 **默认端口5000**
