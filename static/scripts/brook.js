@@ -125,7 +125,7 @@ function submit_addport() {
             alert('密码不能为空');
             return;
     }
-    $.get('api/addport',{'type':type,'port':Number(port),'password':psw,'username':username,'info':info},function (result,status) {
+    $.post('api/addport',{'type':type,'port':Number(port),'password':psw,'username':username,'info':info},function (result,status) {
         console.log(status);
         if (result.code == 0){
                 $('#port').val(null);
@@ -156,7 +156,7 @@ function submit_delport(type,port){
         service = 'Socks5';
     var delete_confirm = confirm('确定要删除端口：'+port+'上的'+service+'服务?');
     if (delete_confirm){
-        $.get('api/delport',{'type':type,'port':port},function (result) {
+        $.post('api/delport',{'type':type,'port':port},function (result) {
             if (result.code == 0){
                 alert('成功删除端口！');
                 $('#myModal2').modal('hide');
@@ -183,7 +183,7 @@ function submitTurnoff(){
     }else if($("#radio-socks5-2").prop('checked')){
         type = 2;
     }
-    $.get('api/stopservice',{'username':getCookie().username,'password':getCookie().password,'type':type,'port':-1},function (result) {
+    $.post('api/stopservice',{'username':getCookie().username,'password':getCookie().password,'type':type,'port':-1},function (result) {
         if (result.code == 0){
             $('#myModal3').modal('hide');
             console.log('关闭服务')
@@ -204,7 +204,7 @@ $('#myModal5').on('hide.bs.modal', function () {
 
 function qrImage(service_json){
     clearInterval(state_interval);
-    $.get('api/generateqrimg',{'type':1,'ip':service_json.ip,'port':service_json.port,'password':service_json.psw},function (result) {
+    $.post('api/generateqrimg',{'type':1,'ip':service_json.ip,'port':service_json.port,'password':service_json.psw},function (result) {
         if (result.code == 0){
             if ($("#myModelBody5").children().length == 0) {
                 img = '<img id="qr-img" style="display: block;margin: auto;position: center" src="' + service_json.qr_img_path + '">';
@@ -255,7 +255,7 @@ function brook_state(){
 
 function judgeCookie(cookie) {
     if(cookie.username && cookie.password) {
-         $.get("api/login",{"username":getCookie().username,"password":getCookie().password},function (result) {
+         $.post("api/login",{"username":getCookie().username,"password":getCookie().password},function (result) {
             console.log(result);
             if(result.code != 0){
                 $(location).attr('href', 'login');
@@ -358,7 +358,7 @@ function update_ui(brook_state_json) {
                                 else
                                     api_url = api_url2;
                                 console.log(api_url);
-                                $.get(api_url,{'username':getCookie().username,'password':getCookie().password,'type':j,'port':state_jsons[j][i].port},function (result) {
+                                $.post(api_url,{'username':getCookie().username,'password':getCookie().password,'type':j,'port':state_jsons[j][i].port},function (result) {
                                     state_interval = setInterval(brook_state,2000);
                                     console.log('已改变端口状态');
                                 })

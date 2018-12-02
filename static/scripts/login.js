@@ -7,7 +7,7 @@ hideEditUser();
 function autoLogin(auto){
 
     if(getCookie().username && getCookie().password){
-        $.get("api/login",{"username":getCookie().username,"password":getCookie().password},function (result) {
+        $.post("api/login",{"username":getCookie().username,"password":getCookie().password},function (result) {
             console.log(result);
             if(result.code == 0){
                 $(location).attr('href', '/');
