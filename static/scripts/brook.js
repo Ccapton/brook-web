@@ -246,7 +246,7 @@ accordion2 = '<div class="accordion" id="accordion-2"></div>'
 accordions = [accordion0,accordion1,accordion2];
 
 function brook_state(){
-    $.get("api/servicestate",function (result) {
+    $.post("api/servicestate",function (result) {
         if (result.code == 0) {
             update_ui(result.data);
         }
