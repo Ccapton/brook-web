@@ -1,4 +1,4 @@
-# [brook](https://github.com/txthinking/brook)-web
+# [brook](https://github.com/txthinking/brook)-web ![](https://sonarcloud.io/api/project_badges/measure?project=Ccapton_brook-web&metric=alert_status)
 ### [brook](https://github.com/txthinking/brook)程序服务端Web后台管理服务器（Linux|MacOS），基于python、flask、flask-restful
 
 ### [安全性说明WiKi](https://github.com/Ccapton/brook-web/wiki/%E5%AE%89%E5%85%A8%E6%80%A7%E8%AF%B4%E6%98%8E)
