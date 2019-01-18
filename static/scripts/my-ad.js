@@ -1,10 +1,10 @@
 
-pin=1125;
+pin=;
 ad_name='brook-web';
-api_path='https://tencent.ccapton.fun/api/webad';
+api_path='';
 
 function getAd(){
-    $.get(api_path,{'pin':1125,'ad_name':ad_name},function (result) {
+    $.get(api_path,{'pin':pin,'ad_name':ad_name},function (result) {
          if (result.code == 0){
              $("#notice").show();
              $("#notice").append(result.data);
