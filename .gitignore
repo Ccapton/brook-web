@@ -1,6 +1,7 @@
 *.zip
 *.pyc
 *.*~
+*.db
 build/*
 .DS_Store
 venv/*

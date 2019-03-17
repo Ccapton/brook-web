@@ -21,6 +21,7 @@ import json, os, re, sys
 from qr import *
 from iptables import release_port,refuse_port
 
+
 # 判断当前Python执行大版本
 python_version = sys.version
 if python_version.startswith('2.'):
@@ -83,11 +84,6 @@ def default_config_json():
         random_port2 = random.randint(10000, 30000)
     while random_port3 == random_port2 or random_port == random_port2:
         random_port3 = random.randint(10000, 30000)
-    # init_config_json = {
-    #     'brook': [{'port': random_port, 'psw': str(random_port), 'state': 0}],
-    #     'shadowsocks': [{'port': random_port2, 'psw': str(random_port2), 'state': 0}],
-    #     'socks5': [{'port': random_port3, 'psw': '', 'username': '', 'state': 0}],
-    # }
     init_config_json = {
         'brook': [{'port':6666, 'psw': '6666', 'state': 0,'info':'若无法开启,删除后再添加'}],
         'shadowsocks': [],
@@ -105,7 +101,6 @@ def default_user(username="admin", password="admin"):
 current_brook_state={}
 
 
-import sys
 # 用户信息保存路径
 default_userjson_path = os.path.join(sys.path[0],"static/json/user.json")
 # 服务信息配置保存路径
@@ -115,6 +110,7 @@ config_json_path = os.path.join(sys.path[0],"static/json/brook_state.json")
 # 基类json对象格式输出函数
 def base_result(msg="", data=None, code=-1):
     return {"msg": msg, "data": data, "code": code}
+
 
 # 读取json文件，若没有对应文件则创建一个json文件、写入myjson的内容
 def load_json(path,myjson):
@@ -182,13 +178,16 @@ class Login(BaseResource):
     def get(self):
         return self.login()
 
+
 # 重置用户信息api
 class ResetPsw(BaseResource):
+
     def add_args(self):
         self.add_argument('old_username',type=str,help='Old Username')
         self.add_argument('old_password',type=str,help='Old Password')
         self.add_argument('username',type=str,help='New Username')
         self.add_argument('password',type=str,help='New Password')
+
     #
     # code : 1 新用户名为空
     # code : 2 新密码名为空
@@ -216,6 +215,7 @@ class ResetPsw(BaseResource):
 
     def get(self):
         return self.reset_psw()
+
 
 # 开启服务api
 # code : 3 服务开启失败
@@ -286,6 +286,7 @@ class StartService(BaseResource):
     def post(self):
         return self.start_service()
 
+
 # 停止服务api
 class StopService(BaseResource):
     def add_args(self):
@@ -332,8 +333,10 @@ class StopService(BaseResource):
     def post(self):
         return self.stop_service()
 
+
 # 获取服务状态api
 class ServiceState(BaseResource):
+
     def add_args(self):
          pass
 
@@ -345,6 +348,7 @@ class ServiceState(BaseResource):
 
     def post(self):
         return base_result(msg='', code=0, data=self.service_state())
+
 
 # 增加端口api
 class AddPort(BaseResource):
@@ -375,6 +379,7 @@ class AddPort(BaseResource):
     def post(self):
         return self.add()
 
+
 # 删除端口api
 class DelPort(BaseResource):
     def add_args(self):
@@ -401,6 +406,7 @@ class DelPort(BaseResource):
 
 # 生成二维码api
 class GenerateQrImg(BaseResource):
+
     def add_args(self):
         self.add_argument('type',type=int,help='Service Type')
         self.add_argument('ip',type=str,help='Service Ip')
@@ -418,8 +424,10 @@ class GenerateQrImg(BaseResource):
             if generate_qr_image(format_ss_link(ip,password,port,python_version),port):
                 return base_result('GenerateQrImg successful!',code=0)
         return base_result('GenerateQrImg failed')
+
     def get(self):
         return self.generate_qr_image()
+
     def post(self):
         return self.generate_qr_image()
 
@@ -481,6 +489,7 @@ def del_port(service_type=SERVICE_TYPE_BROOK,port=-1):
         return False
     config_json = load_config_json()
     service_list = [config_json['brook'],config_json['shadowsocks'],config_json['socks5']]
+
     def get_index(service):
         index = -1
         for i in range(len(service)):
@@ -537,10 +546,10 @@ def get_host_ip():
 
 # 记录所有服务的状态
 def record_all_state():
-    #print('record_brook_state')
     record_state(SERVICE_TYPE_BROOK)
     record_state(SERVICE_TYPE_SS)
     record_state(SERVICE_TYPE_SOCKS5)
+
 
 # 记录服务状态
 def record_state(service_type=-1):
@@ -596,6 +605,7 @@ def record_state(service_type=-1):
         else:
             current_server['info'] = ''
         current_brook_state[service_name].append(current_server)
+
 
 # 开启服务
 def start_service(service_type,port=-1,force=False):
@@ -799,20 +809,24 @@ api.add_resource(AddPort,'/api/addport')
 api.add_resource(DelPort,'/api/delport')
 api.add_resource(GenerateQrImg,'/api/generateqrimg')
 
+
 @app.route("/")
 def brook_web():
     title='Brook后台管理'
     return render_template('index.html',title=title)
+
 
 @app.route("/login")
 def user_login():
     title='Brook管理登录'
     return render_template('login.html',title=title)
 
+
 @app.route("/user")
 def user_edit():
     title='Brook后台管理'
     return render_template('user.html',title=title)
+
 
 @app.route("/test")
 def test_html():
@@ -874,6 +888,7 @@ def is_linux():
         return True
     return False
 
+
 if __name__ == '__main__':
     if python_version == '2':
         reload(sys)  # python3解释器下可能会提示错误，没关系，因为只有python2运行本程序才会走到这步
@@ -890,17 +905,6 @@ if __name__ == '__main__':
     fire.Fire(config_param)
 
     if not port_error:
-        # import platform
-        # sys_name = platform.system()
-        # machine_name = platform.machine().lower()
-        # if 'Darwin' == sys_name:
-        #      pass
-        # elif 'Linux' == sys_name:
-        #     p = os.popen(command_tag + ' install psmisc')
-        #     p.read()
-        #     p.close()
-        #
-        # kill_result = os.system('killall brook')
 
         # 记录当前运行中的服务，并停止该服务
         if has_service_start(SERVICE_TYPE_BROOK):stop_service(SERVICE_TYPE_BROOK,port=-1)
@@ -914,6 +918,7 @@ if __name__ == '__main__':
             start_service(SERVICE_TYPE_SS)
             start_service(SERVICE_TYPE_SOCKS5)
 
-
+        import config
+        app.config.from_object(config)
         app.run(host=host_ip, port=default_port, debug=debug)
 
