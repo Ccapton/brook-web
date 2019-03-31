@@ -27,5 +27,6 @@ tags
 log
 
 static/img/qr
-
+static/json/brook_state.json
 brook
+
