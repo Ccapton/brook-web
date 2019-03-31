@@ -2,7 +2,7 @@
 *.pyc
 *.*~
 build/*
-#.DS_Store
+.DS_Store
 venv/*
 vendor/
 *.swp
@@ -21,5 +21,5 @@ dist/*
 .ropeproject
 .bundle
 .rbenv*
-.idea
+#.idea
 tags
