@@ -24,4 +24,6 @@ dist/*
 .idea
 tags
 
+log
+
 static/img/qr
