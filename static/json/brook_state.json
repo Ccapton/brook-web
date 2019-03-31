@@ -1,1 +1,1 @@
-{"brook": [{"port": 15759, "psw": "15759", "state": 0}, {"port": 10086, "psw": "1125", "info": "自己用", "state": 1}], "shadowsocks": [{"port": 21532, "psw": "21532", "state": 1}], "socks5": [{"port": 28490, "psw": "", "username": "", "state": 1}]}
+{"brook": [{"port": 10086, "psw": "1125", "info": "自己用", "state": 1}], "shadowsocks": [{"port": 21532, "psw": "21532", "state": 1}], "socks5": [{"port": 28490, "psw": "", "username": "", "state": 1}]}
