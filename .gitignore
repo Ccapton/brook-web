@@ -1,0 +1,12 @@
+
+brook
+
+log
+
+nohup.out
+
+*.pyc
+
+__pycache__/
+
+venv/
