@@ -21,7 +21,7 @@ dist/*
 .ropeproject
 .bundle
 .rbenv*
-#.idea
+.idea
 tags
 
 static/img/qr
