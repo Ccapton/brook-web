@@ -21,6 +21,7 @@ import json, os, re, sys
 from qr import *
 from iptables import release_port, refuse_port
 
+
 # 判断当前Python执行大版本
 python_version = sys.version
 if python_version.startswith('2.'):
@@ -91,11 +92,6 @@ def default_config_json():
         random_port2 = random.randint(10000, 30000)
     while random_port3 == random_port2 or random_port == random_port2:
         random_port3 = random.randint(10000, 30000)
-    # init_config_json = {
-    #     'brook': [{'port': random_port, 'psw': str(random_port), 'state': 0}],
-    #     'shadowsocks': [{'port': random_port2, 'psw': str(random_port2), 'state': 0}],
-    #     'socks5': [{'port': random_port3, 'psw': '', 'username': '', 'state': 0}],
-    # }
     init_config_json = {
         'brook': [{'port': 6666, 'psw': '6666', 'state': 0, 'info': '若无法开启,删除后再添加'}],
         'shadowsocks': [],
@@ -216,6 +212,7 @@ class Login(BaseResource):
 
 # 重置用户信息api
 class ResetPsw(BaseResource):
+
     def add_args(self):
         self.add_argument('old_username', type=str, help='Old Username')
         self.add_argument('old_password', type=str, help='Old Password')
@@ -372,6 +369,7 @@ class StopService(BaseResource):
 
 # 获取服务状态api
 class ServiceState(BaseResource):
+
     def add_args(self):
         pass
 
@@ -441,6 +439,7 @@ class DelPort(BaseResource):
 
 # 生成二维码api
 class GenerateQrImg(BaseResource):
+
     def add_args(self):
         self.add_argument('type', type=int, help='Service Type')
         self.add_argument('ip', type=str, help='Service Ip')
@@ -581,7 +580,6 @@ def get_host_ip():
 
 # 记录所有服务的状态
 def record_all_state():
-    # print('record_brook_state')
     record_state(SERVICE_TYPE_BROOK)
     record_state(SERVICE_TYPE_SS)
     record_state(SERVICE_TYPE_SOCKS5)
@@ -849,10 +847,12 @@ api.add_resource(DelPort, '/api/delport')
 api.add_resource(GenerateQrImg, '/api/generateqrimg')
 
 
+
 @app.route("/")
 def brook_web():
     title = 'Brook后台管理'
     return render_template('index.html', title=title)
+
 
 
 @app.route("/login")
@@ -861,10 +861,12 @@ def user_login():
     return render_template('login.html', title=title)
 
 
+
 @app.route("/user")
 def user_edit():
     title = 'Brook后台管理'
     return render_template('user.html', title=title)
+
 
 
 @app.route("/test")
