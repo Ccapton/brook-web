@@ -1,3 +1,6 @@
+
+const stateInterval = 3000;
+
 function switchMenu() {
     var menu_items = $("#footer").children();
     if ($(".menu-item-hidden").length == 0) {
@@ -19,7 +22,7 @@ function addPort() {
     clearInterval(state_interval);
     $('#myModal').on('hide.bs.modal', function () {
         clearInterval(state_interval);
-        state_interval = setInterval(brook_state, 2000);
+        state_interval = setInterval(brook_state, stateInterval);
     });
     if (state_jsons[2].length !== 0) {
         $("#socks5").hide();
@@ -27,7 +30,7 @@ function addPort() {
         $("#socks5").show();
     }
     $("#service-type").children().find('input').click(function () {
-        console.log('click radio');
+
         var service_type = $(this).val();
         if (service_type == 2)
             $("#username").show();
@@ -73,7 +76,7 @@ function delPort() {
     clearInterval(state_interval);
     $('#myModal2').on('hide.bs.modal', function () {
         clearInterval(state_interval);
-        state_interval = setInterval(brook_state, 2000);
+        state_interval = setInterval(brook_state, stateInterval);
     });
 
 
@@ -124,13 +127,13 @@ function submit_addport() {
         return;
     }
     $.post('api/addport', {
-        'type': type,
-        'port': Number(port),
-        'password': psw,
-        'username': username,
-        'info': info
+        'type': $.base64.encode($.base64.encode(salt) + splitWord + $.base64.encode(type)),
+        'port': $.base64.encode($.base64.encode(salt) + splitWord + $.base64.encode(Number(port))),
+        'password': $.base64.encode($.base64.encode(salt) + splitWord + $.base64.encode(psw)),
+        'username': $.base64.encode($.base64.encode(salt) + splitWord + $.base64.encode(username)),
+        'info': $.base64.encode($.base64.encode(salt) + splitWord + $.base64.encode(info))
     }, function (result, status) {
-        console.log(status);
+
         if (result.code == 0) {
             $('#port').val(null);
             $('#psw').val('');
@@ -150,7 +153,6 @@ function submit_addport() {
 }
 
 function submit_delport(type, port) {
-    console.log('删除端口', type, port);
     var service = '';
     if (type == 0)
         service = 'Brook';
@@ -160,7 +162,10 @@ function submit_delport(type, port) {
         service = 'Socks5';
     var delete_confirm = confirm('确定要删除端口：' + port + '上的' + service + '服务?');
     if (delete_confirm) {
-        $.post('api/delport', {'type': type, 'port': port}, function (result) {
+        $.post('api/delport', {
+            'type': $.base64.encode($.base64.encode(salt) + splitWord + $.base64.encode(type)),
+            'port': $.base64.encode($.base64.encode(salt) + splitWord + $.base64.encode(port))
+        }, function (result) {
             if (result.code == 0) {
                 alert('成功删除端口！');
                 $('#myModal2').modal('hide');
@@ -173,7 +178,7 @@ function turnoffAllPort() {
     clearInterval(state_interval);
     $('#myModal3').on('hide.bs.modal', function () {
         clearInterval(state_interval);
-        state_interval = setInterval(brook_state, 2000);
+        state_interval = setInterval(brook_state, stateInterval);
     });
 
 }
@@ -190,8 +195,8 @@ function submitTurnoff() {
     $.post('api/stopservice', {
         'username': getCookie().username,
         'password': getCookie().password,
-        'type': type,
-        'port': -1
+        'type': $.base64.encode($.base64.encode(salt) + splitWord + $.base64.encode(type)),
+        'port': $.base64.encode($.base64.encode(salt) + splitWord + $.base64.encode(-1))
     }, function (result) {
         if (result.code == 0) {
             $('#myModal3').modal('hide');
@@ -202,22 +207,22 @@ function submitTurnoff() {
 
 $('#myModal4').on('hide.bs.modal', function () {
     clearInterval(state_interval);
-    state_interval = setInterval(brook_state, 2000);
+    state_interval = setInterval(brook_state, stateInterval);
 });
 
 $('#myModal5').on('hide.bs.modal', function () {
     clearInterval(state_interval);
-    state_interval = setInterval(brook_state, 2000);
+    state_interval = setInterval(brook_state, stateInterval);
     $("#myModelBody5").children().remove();
 });
 
 function qrImage(service_json) {
     clearInterval(state_interval);
     $.post('api/generateqrimg', {
-        'type': 1,
-        'ip': service_json.ip,
-        'port': service_json.port,
-        'password': service_json.psw
+        'type':  $.base64.encode($.base64.encode(salt) + splitWord + $.base64.encode(1)),
+        'ip':  $.base64.encode($.base64.encode(salt) + splitWord + $.base64.encode(service_json.ip)),
+        'port': $.base64.encode($.base64.encode(salt) + splitWord + $.base64.encode(service_json.port)),
+        'password': $.base64.encode($.base64.encode(salt) + splitWord + $.base64.encode(service_json.psw))
     }, function (result) {
         if (result.code == 0) {
             if ($("#myModelBody5").children().length == 0) {
@@ -260,9 +265,10 @@ accordion2 = '<div class="accordion" id="accordion-2"></div>';
 accordions = [accordion0, accordion1, accordion2];
 
 function brook_state() {
-    $.post("api/servicestate", function (result) {
+    var base64EncryptText = $.base64.encode($.base64.encode(salt) + splitWord + $.base64.encode(salt));
+    $.post("api/servicestate", {'data': base64EncryptText},function (result) {
         if (result.code == 0) {
-            update_ui(result.data);
+            update_ui(JSON.parse($.base64.decode(result.data)));
         }
     })
 }
@@ -275,7 +281,7 @@ function judgeCookie(cookie) {
                 $(location).attr('href', 'login');
             } else {
                 brook_state();
-                state_interval = setInterval(brook_state, 2000);
+                state_interval = setInterval(brook_state, stateInterval);
             }
         })
     } else {
@@ -362,7 +368,7 @@ function update_ui(brook_state_json) {
                         var j = $(this).data('index');
                         var i = $(this).data('index2');
                         var ischecked = $(this).prop("checked");
-                        console.log(ischecked);
+
                         clearInterval(state_interval);
                         var api_url = "";
                         var api_url1 = "api/startservice";
@@ -371,15 +377,14 @@ function update_ui(brook_state_json) {
                             api_url = api_url1;
                         else
                             api_url = api_url2;
-                        console.log(api_url);
+
                         $.post(api_url, {
                             'username': getCookie().username,
                             'password': getCookie().password,
-                            'type': j,
-                            'port': state_jsons[j][i].port
+                            'type': $.base64.encode($.base64.encode(salt) + splitWord + $.base64.encode(j)),
+                            'port': $.base64.encode($.base64.encode(salt) + splitWord + $.base64.encode(state_jsons[j][i].port))
                         }, function (result) {
-                            state_interval = setInterval(brook_state, 2000);
-                            console.log('已改变端口状态');
+                            state_interval = setInterval(brook_state, stateInterval);
                         })
                     });
                 }

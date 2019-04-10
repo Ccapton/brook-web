@@ -13,7 +13,7 @@
 from __future__ import print_function  # 同时兼容python2、Python3
 from __future__ import division  # 同时兼容python2、Python3
 
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory, request
 from flask_apscheduler import APScheduler
 from flask_restful import Api
 from flask_restful import Resource, reqparse
@@ -44,6 +44,9 @@ busy = False
 SERVICE_TYPE_BROOK = 0
 SERVICE_TYPE_SS = 1
 SERVICE_TYPE_SOCKS5 = 2
+
+salt = 'brook-web'
+split_word = '---YnJvb2std2Vi---'
 
 
 # Resource封装类，简化数据参数的配置
@@ -187,15 +190,32 @@ class Favicon(BaseResource):
                                    mimetype='image/vnd.microsoft.icon')
 
 
+def check_base64_data(is_get_service_state=False, is_post=True):
+    client_data = request.json.get('data') if request.json and request.json.get('data') else (request.form.get('data') if is_post else request.args.get('data'))
+    data = base64decode(client_data, python_version)
+    client_salt, raw_data = str(data).split(split_word)
+    return (base64decode(client_salt, python_version) == salt and base64decode(raw_data, python_version) == salt)\
+        if is_get_service_state else base64decode(client_salt, python_version) == salt
+
+
+def get_base64_data(key, is_post=True):
+    client_data = request.json.get(key) if request.json and request.json.get(key) else (
+        request.form.get(key) if is_post else request.args.get(key))
+    data = base64decode(client_data, python_version)
+    client_salt, raw_data = str(data).split(split_word)
+    if base64decode(client_salt, python_version) == salt:
+        return base64decode(raw_data, python_version) if raw_data and len(raw_data) > 0 else ''
+
+
 # 登录api
 class Login(BaseResource):
     def add_args(self):
         self.add_argument('username', type=str, help='Username')
         self.add_argument('password', type=str, help='Password')
 
-    def login(self):
-        username = self.get_arg('username')
-        password = self.get_arg('password')
+    def login(self, is_post):
+        username = get_base64_data('username', is_post)
+        password = get_base64_data('password', is_post)
         user = load_default_userjson()
         name = user['username']
         psw = user['password']
@@ -204,10 +224,10 @@ class Login(BaseResource):
         return base_result(msg="Login failed!")
 
     def post(self):
-        return self.login()
+        return self.login(True)
 
     def get(self):
-        return self.login()
+        return self.login(False)
 
 
 # 重置用户信息api
@@ -224,11 +244,11 @@ class ResetPsw(BaseResource):
     # code : 2 新密码名为空
     # code : -1 旧用户信息不正确
     #
-    def reset_psw(self):
-        username = self.get_arg('username')
-        password = self.get_arg('password')
-        old_username = self.get_arg('old_username')
-        old_password = self.get_arg('old_password')
+    def reset_psw(self, is_post):
+        username = get_base64_data('username', is_post)
+        password = get_base64_data('password', is_post)
+        old_username = get_base64_data('old_username', is_post)
+        old_password = get_base64_data('old_password', is_post)
         code = 0
         user = load_default_userjson()
         if old_username == user['username'] and old_password == user['password']:
@@ -243,10 +263,10 @@ class ResetPsw(BaseResource):
         return base_result(msg='Reset User Failed!')
 
     def post(self):
-        return self.reset_psw()
+        return self.reset_psw(True)
 
     def get(self):
-        return self.reset_psw()
+        return self.reset_psw(False)
 
 
 # 开启服务api
@@ -256,19 +276,16 @@ class ResetPsw(BaseResource):
 #
 class StartService(BaseResource):
     def add_args(self):
-        self.add_argument('username', type=str, help='Username')
-        self.add_argument('password', type=str, help='Password')
-        self.add_argument('type', type=int, help='Service Type')
-        self.add_argument('port', type=int, help='Port')
+        pass
 
-    def start_service(self):
-        username = self.get_arg('username')
-        password = self.get_arg('password')
+    def start_service(self, is_post):
+        username = get_base64_data('username', is_post)
+        password = get_base64_data('username', is_post)
         user = load_default_userjson()
         if username != user['username'] or password != user['password']:
             return base_result(msg='Loin Failed')
-        type = self.get_arg('type')
-        port = self.get_arg('port')
+        type = int(get_base64_data('type', is_post))
+        port = int(get_base64_data('port', is_post))
         if busy:
             return base_result(msg='Server Busy!,Try Again Later.', code=4)
 
@@ -314,28 +331,26 @@ class StartService(BaseResource):
         return base_result(msg='Failed to Start Service', code=3)
 
     def get(self):
-        return self.start_service()
+        return self.start_service(False)
 
     def post(self):
-        return self.start_service()
+        return self.start_service(True)
 
 
 # 停止服务api
 class StopService(BaseResource):
     def add_args(self):
-        self.add_argument('username', type=str, help='Username')
-        self.add_argument('password', type=str, help='Password')
-        self.add_argument('type', type=int, help='Service Type')
-        self.add_argument('port', type=int, help='Port')
+        pass
 
-    def stop_service(self):
-        username = self.get_arg('username')
-        password = self.get_arg('password')
+    def stop_service(self, is_post):
+        username = get_base64_data('username', is_post)
+        password = get_base64_data('password', is_post)
         if username != load_default_userjson()['username'] or password != load_default_userjson()[
             'password']:
             return base_result(msg='Loin Failed')
-        type = self.get_arg('type')
-        port = self.get_arg('port')
+
+        type = int(get_base64_data('type', is_post))
+        port = int(get_base64_data('port', is_post))
         if type == -1:
             stop_service(SERVICE_TYPE_BROOK)
             stop_service(SERVICE_TYPE_SS)
@@ -361,10 +376,10 @@ class StopService(BaseResource):
         return base_result(msg='Stop Service Successful!', code=0)
 
     def get(self):
-        return self.stop_service()
+        return self.stop_service(False)
 
     def post(self):
-        return self.stop_service()
+        return self.stop_service(True)
 
 
 # 获取服务状态api
@@ -377,27 +392,29 @@ class ServiceState(BaseResource):
         return current_brook_state
 
     def get(self):
-        return base_result(msg='', code=0, data=self.service_state())
+        if check_base64_data(is_get_service_state=False):
+            return base_result(msg='', code=0, data=base64encode(json.dumps(self.service_state()), python_version))
+        else:
+            return base_result(msg='解密失败', code=1)
 
     def post(self):
-        return base_result(msg='', code=0, data=self.service_state())
+        if check_base64_data(is_get_service_state=True):
+            return base_result(msg='', code=0, data=base64encode(json.dumps(self.service_state()), python_version))
+        else:
+            return base_result(msg='解密失败', code=1)
 
 
 # 增加端口api
 class AddPort(BaseResource):
     def add_args(self):
-        self.add_argument('type', type=int, help='Service Type')
-        self.add_argument('port', type=int, help='Service Port')
-        self.add_argument('password', type=str, help='Service Password')
-        self.add_argument('username', type=str, help='Service Username')
-        self.add_argument('info', type=str, help='Service Info')
+        pass
 
-    def add(self):
-        type = self.get_arg('type')
-        port = self.get_arg('port')
-        password = self.get_arg('password')
-        username = self.get_arg('username')
-        info = self.get_arg('info')
+    def add(self, is_post):
+        type = int(get_base64_data('type', is_post))
+        port = int(get_base64_data('port', is_post))
+        password = get_base64_data('password', is_post)
+        username = get_base64_data('username', is_post)
+        info = get_base64_data('info', is_post)
         if busy:
             return base_result(msg='Server Busy!,Try Again Later.', code=4)
         if is_port_used(port, current_brook_state):
@@ -407,23 +424,20 @@ class AddPort(BaseResource):
         return base_result(msg='Add Port Failed!', code=-1)
 
     def get(self):
-        return self.add()
+        return self.add(False)
 
     def post(self):
-        return self.add()
+        return self.add(True)
 
 
 # 删除端口api
 class DelPort(BaseResource):
     def add_args(self):
-        self.add_argument('type', type=int, help='Service Type')
-        self.add_argument('port', type=int, help='Service Port')
-        self.add_argument('password', type=str, help='Service Password')
+        pass
 
-    def del_port(self):
-        type = self.get_arg('type')
-        port = self.get_arg('port')
-        password = self.get_arg('password')
+    def del_port(self, is_post):
+        type = int(get_base64_data('type', is_post))
+        port = int(get_base64_data('port', is_post))
         if busy:
             return base_result(msg='Server Busy!,Try Again Later.', code=4)
         if del_port(service_type=type, port=port):
@@ -431,26 +445,23 @@ class DelPort(BaseResource):
         return base_result(msg='Delete Port Failed!', code=-1)
 
     def get(self):
-        return self.del_port()
+        return self.del_port(False)
 
     def post(self):
-        return self.del_port()
+        return self.del_port(True)
 
 
 # 生成二维码api
 class GenerateQrImg(BaseResource):
 
     def add_args(self):
-        self.add_argument('type', type=int, help='Service Type')
-        self.add_argument('ip', type=str, help='Service Ip')
-        self.add_argument('password', type=str, help='Service Password')
-        self.add_argument('port', type=int, help='Service Port')
+        pass
 
-    def generate_qr_image(self):
-        type = self.get_arg('type')
-        port = self.get_arg('port')
-        password = self.get_arg('password')
-        ip = self.get_arg('ip')
+    def generate_qr_image(self, is_post):
+        type = int(get_base64_data('type', is_post))
+        port = int(get_base64_data('port', is_post))
+        password = get_base64_data('password', is_post)
+        ip = get_base64_data('ip', is_post)
         if type == SERVICE_TYPE_SS:
             if port <= 0:
                 return base_result(msg='Port must > 0', code=-2)
@@ -459,10 +470,10 @@ class GenerateQrImg(BaseResource):
         return base_result('GenerateQrImg failed')
 
     def get(self):
-        return self.generate_qr_image()
+        return self.generate_qr_image(False)
 
     def post(self):
-        return self.generate_qr_image()
+        return self.generate_qr_image(True)
 
 
 # 检查目标端口是否被占用、根据配置信息判断端口是否已被记录

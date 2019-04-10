@@ -1,17 +1,18 @@
-#coding=utf-8
-#。—————————————————————————————————————————— 
-#。                                           
-#。  qr.py                               
-#。                                           
-#。 @Time    : 18-11-6 下午2:53                
-#。 @Author  : capton                        
-#。 @Software: PyCharm                
-#。 @Blog    : http://ccapton.cn              
-#。 @Github  : https://github.com/ccapton     
-#。 @Email   : chenweibin1125@foxmail.com     
-#。__________________________________________
+# coding=utf-8
+# 。——————————————————————————————————————————
+# 。
+# 。  qr.py
+# 。
+# 。 @Time    : 18-11-6 下午2:53
+# 。 @Author  : capton
+# 。 @Software: PyCharm
+# 。 @Blog    : http://ccapton.cn
+# 。 @Github  : https://github.com/ccapton
+# 。 @Email   : chenweibin1125@foxmail.com
+# 。__________________________________________
 
-def generate_qr_image(content,port):
+
+def generate_qr_image(content, port):
     try:
         import qrcode, os, sys
         qr = qrcode.QRCode(
@@ -32,31 +33,34 @@ def generate_qr_image(content,port):
     return True
 
 
-def base64encode(content,pv='2'):
+def base64encode(content, pv='2'):
     import base64
     if pv == '2':
         return base64.urlsafe_b64encode(content)
     elif pv == '3':
-        return base64.urlsafe_b64encode(content.encode(encoding='utf8')).decode()
+        return base64.urlsafe_b64encode(content.encode(encoding='utf-8')).decode()
 
-def base64decode(content,pv='2'):
+
+def base64decode(content, pv='2'):
     import base64
     if pv == '2':
         return base64.urlsafe_b64decode(content)
     elif pv == '3':
-        return base64.urlsafe_b64decode(content.encode(encoding='utf8')).decode()
+        return base64.urlsafe_b64decode(content.encode(encoding='utf-8')).decode()
 
 
-def format_brook_link(ip,psw,port,type='default'):
-    return 'brook://'+type+'%20'+ip+":"+str(port)+'%20'+str(psw)
+def format_brook_link(ip, psw, port, type='default'):
+    return 'brook://' + type + '%20' + ip + ":" + str(port) + '%20' + str(psw)
 
 
-def format_ss_link(ip,psw,port,pv='2'):
-    return 'ss://'+base64encode('aes-256-cfb:'+str(psw)+'@'+ip+':'+str(port),pv)
+def format_ss_link(ip, psw, port, pv='2'):
+    return 'ss://' + base64encode('aes-256-cfb:' + str(psw) + '@' + ip + ':' + str(port), pv)
+
 
 if __name__ == '__main__':
     # 判断当前Python执行大版本
     import sys
+
     python_version = sys.version
     if python_version.startswith('2.'):
         python_version = '2'
@@ -66,6 +70,5 @@ if __name__ == '__main__':
         reload(sys)  # python3解释器下可能会提示错误，没关系，因为只有python2运行本程序才会走到这步
         sys.setdefaultencoding("utf-8")  # 同上
 
-    print(format_brook_link('192.168.1.106','123456',10086))
-    generate_qr_image(format_ss_link('192.168.1.106','123456',9996,python_version),9996)
-
+    print(format_brook_link('192.168.1.106', '123456', 10086))
+    generate_qr_image(format_ss_link('192.168.1.106', '123456', 9996, python_version), 9996)

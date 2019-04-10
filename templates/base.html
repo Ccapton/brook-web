@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="brook-web">
     <meta name="author" content="BotoX">
-    <link rel="icon" href="favicon.ico" />
+    <link rel="icon" href="favicon.ico"/>
     <!-- Loading Bootstrap -->
     <link href="static/dist/css/vendor/bootstrap.min.css" rel="stylesheet">
 
@@ -15,75 +15,79 @@
     <link href="static/dist/css/flat-ui.css" rel="stylesheet">
     <!--<link href="static/docs/assets/css/demo.css" rel="stylesheet">-->
 
-<!-- <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">#}-->
+    <!-- <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">#}-->
     <link rel="stylesheet" href="static/css/buttons.css">
     <link rel="stylesheet" href="static/css/light.css">
 
 
-
 </head>
 <body>
-    <div class="row demo-row">
-        <div class="col" style="padding-right: 0px">
-          <nav class="navbar navbar-inverse navbar-embossed navbar-expand-lg" role="navigation">
+<div class="row demo-row">
+    <div class="col" style="padding-right: 0px">
+        <nav class="navbar navbar-inverse navbar-embossed navbar-expand-lg" role="navigation">
             <a class="navbar-brand" href="/"> {{ title }}</a>
-            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse-01"></button>
+            <button type="button" class="navbar-toggler" data-toggle="collapse"
+                    data-target="#navbar-collapse-01"></button>
             <div class="collapse navbar-collapse" id="navbar-collapse-01">
-              <ul class="nav navbar-nav mr-auto"  id="edit-user">
+                <ul class="nav navbar-nav mr-auto" id="edit-user">
 
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">账号</a>
-                  <span class="dropdown-arrow"></span>
-                  <ul class="dropdown-menu">
-                      <li><a href="#" onclick="editUser()">编辑</a></li>
-                      <li class="divider"></li>
-                      <li><a href="#" onclick="logout()">退出</a></li>
-                  </ul>
-                </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">账号</a>
+                        <span class="dropdown-arrow"></span>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" onclick="editUser()">编辑</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#" onclick="logout()">退出</a></li>
+                        </ul>
+                    </li>
 
-               </ul>
-               <form class="navbar-form form-inline my-2 my-lg-0" action="#" role="search" style="display: none">
-                <div class="form-group">
-                  <div class="input-group">
-                    <input class="form-control" id="navbarInput-01" type="search" placeholder="Search">
-                    <span class="input-group-btn">
+                </ul>
+                <form class="navbar-form form-inline my-2 my-lg-0" action="#" role="search" style="display: none">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input class="form-control" id="navbarInput-01" type="search" placeholder="Search">
+                            <span class="input-group-btn">
                       <button type="submit" class="btn"><span class="fui-search"></span></button>
                     </span>
-                  </div>
-                </div>
-              </form>
+                        </div>
+                    </div>
+                </form>
             </div><!-- /.navbar-collapse -->
-          </nav><!-- /navbar -->
-        </div>
-      </div> <!-- /row -->
-
-    <div   style="background: white;display: none" id="notice">
-        <!-- 顶部公告栏 -->
-        <p style="display:inline;margin-left: 30px;min-height:40px;line-height: 40px;">公告: </p>
-        <!-- 顶部公告栏 -->
-
+        </nav><!-- /navbar -->
     </div>
+</div> <!-- /row -->
+
+<div style="background: white;display: none" id="notice">
+    <!-- 顶部公告栏 -->
+    <p style="display:inline;margin-left: 30px;min-height:40px;line-height: 40px;">公告: </p>
+    <!-- 顶部公告栏 -->
+
+</div>
 
 
 
-    {% block content %}
-    {% endblock %}
+{% block content %}
+{% endblock %}
 
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <!-- Bootstrap 4 requires Popper.js -->
-    <script src="https://unpkg.com/popper.js@1.14.1/dist/umd/popper.min.js" crossorigin="anonymous"></script>
-    <!--<script src="http://vjs.zencdn.net/6.6.3/video.js"></script>-->
-    <script src="static/dist/scripts/flat-ui.js"></script>
-    <script src="static/docs/assets/js/application.js"></script>
+<script src="static/scripts/base.js?v=201904102056"></script>
 
-    <script src="static/scripts/jquery.cookie.js"></script>
-    <script src="static/scripts/clipboard.min.js"></script>
-    <script src="static/scripts/user.js"></script>
-    <!--<script src="static/scripts/my-ad.js"></script>-->
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<!-- Bootstrap 4 requires Popper.js -->
+<script src="https://unpkg.com/popper.js@1.14.1/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+<!--<script src="http://vjs.zencdn.net/6.6.3/video.js"></script>-->
+<script src="static/dist/scripts/flat-ui.js"></script>
+<script src="static/docs/assets/js/application.js"></script>
 
-    {% block script %}
-    {% endblock %}
+<script src="static/scripts/jquery.cookie.js"></script>
+<script src="static/scripts/jquery.base64.js"></script>
+<script src="static/scripts/clipboard.min.js"></script>
+<script src="static/scripts/user.js?v=201904102067"></script>
+<!--<script src="static/scripts/my-ad.js"></script>-->
+
+{% block script %}
+{% endblock %}
 </body>
 </html>
