@@ -217,12 +217,11 @@ class Login(BaseResource):
         username = get_base64_data('username', is_post)
         password = get_base64_data('password', is_post)
         user = load_default_userjson()
-        print(user)
         name = user['username']
         psw = user['password']
         if name == username and psw == password:
             return base_result(msg="Login Successful!", code=0)
-        return base_result(msg="Login failed!")
+        return base_result(msg="Login failed!", code=-1)
 
     def post(self):
         return self.login(True)
