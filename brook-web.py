@@ -105,7 +105,6 @@ def default_config_json():
 
 # 默认用户信息
 def default_user(username="admin", password="admin", email=''):
-    print({"username": username, "password": password, 'email': email})
     return {"username": username, "password": password, 'email': email}
 
 
@@ -218,6 +217,7 @@ class Login(BaseResource):
         username = get_base64_data('username', is_post)
         password = get_base64_data('password', is_post)
         user = load_default_userjson()
+        print(user)
         name = user['username']
         psw = user['password']
         if name == username and psw == password:
