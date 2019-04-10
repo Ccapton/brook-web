@@ -345,7 +345,7 @@ class StopService(BaseResource):
     def stop_service(self, is_post):
         username = get_base64_data('username', is_post)
         password = get_base64_data('password', is_post)
-        print(username, password)
+        print(load_default_userjson()['username'], load_default_userjson()['password'])
         if username != load_default_userjson()['username'] or password != load_default_userjson()['password']:
             return base_result(msg='Loin Failed')
 
