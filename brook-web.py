@@ -247,12 +247,10 @@ class ResetPsw(BaseResource):
     def reset_psw(self, is_post):
         username = get_base64_data('username', is_post)
         password = get_base64_data('password', is_post)
-        old_username = base64decode(get_base64_data('old_username', is_post).split(split_word)[1], python_version)
-        old_password = base64decode(get_base64_data('old_password', is_post).split(split_word)[1], python_version)
+        old_username = base64decode(base64decode(get_base64_data('old_username', is_post), python_version).split(split_word)[1], python_version)
+        old_password = base64decode(base64decode(get_base64_data('old_password', is_post), python_version).split(split_word)[1], python_version)
         code = 0
         user = load_default_userjson()
-        print(old_username, old_password)
-        print(user['username'], user['password'])
         if old_username == user['username'] and old_password == user['password']:
             if len(username) <= 0:
                 code = 1
