@@ -251,6 +251,8 @@ class ResetPsw(BaseResource):
         old_password = get_base64_data('old_password', is_post)
         code = 0
         user = load_default_userjson()
+        print(old_username, old_password)
+        print(user['username'], user['password'])
         if old_username == user['username'] and old_password == user['password']:
             if len(username) <= 0:
                 code = 1
