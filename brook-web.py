@@ -282,6 +282,7 @@ class StartService(BaseResource):
         username = get_base64_data('username', is_post)
         password = get_base64_data('password', is_post)
         user = load_default_userjson()
+        print(username, password)
         if username != user['username'] or password != user['password']:
             return base_result(msg='Loin Failed')
         type = int(get_base64_data('type', is_post))
